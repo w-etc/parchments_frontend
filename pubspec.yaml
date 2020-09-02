@@ -64,15 +64,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Italianno
-      fonts:
-        - asset: fonts/Italianno-Regular.ttf
     - family: NotoSerif
       fonts:
         - asset: fonts/NotoSerif-Regular.ttf
     - family: Cinzel
       fonts:
-        - asset: fonts/Cinzel-Regular.ttf
+        - asset: fonts/Cinzel-Medium.ttf
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
