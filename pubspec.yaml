@@ -48,7 +48,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - assets/login_icon.png
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -67,6 +67,24 @@ flutter:
     - family: Italianno
       fonts:
         - asset: fonts/Italianno-Regular.ttf
+    - family: ArchitectsDaughter
+      fonts:
+        - asset: fonts/ArchitectsDaughter-Regular.ttf
+    - family: Caveat
+      fonts:
+        - asset: fonts/Caveat-Regular.ttf
+    - family: Charm
+      fonts:
+        - asset: fonts/Charm-Regular.ttf
+    - family: IndieFlower
+      fonts:
+        - asset: fonts/IndieFlower-Regular.ttf
+    - family: Kalam
+      fonts:
+        - asset: fonts/Kalam-Light.ttf
+    - family: Merienda
+      fonts:
+        - asset: fonts/Merienda-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

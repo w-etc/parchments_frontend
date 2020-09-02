@@ -14,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   ScrollController _scrollController = ScrollController();
 
   Future<void> _login(String writer) async {
+    Navigator.pushNamed(context, "/parchment");
   }
 
   _scrollToBottom() {
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                           controller: writerNameController,
                         ),
                       ),
-                      Image(image: AssetImage('assets/login_icon.png'), width: 50,),
+                      Image(image: AssetImage('assets/feather_left.png'), width: 50,),
                     ],
                   ),
                   Container(
