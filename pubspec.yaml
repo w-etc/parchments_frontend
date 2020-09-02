@@ -67,24 +67,13 @@ flutter:
     - family: Italianno
       fonts:
         - asset: fonts/Italianno-Regular.ttf
-    - family: ArchitectsDaughter
+    - family: NotoSerif
       fonts:
-        - asset: fonts/ArchitectsDaughter-Regular.ttf
-    - family: Caveat
+        - asset: fonts/NotoSerif-Regular.ttf
+    - family: Cinzel
       fonts:
-        - asset: fonts/Caveat-Regular.ttf
-    - family: Charm
-      fonts:
-        - asset: fonts/Charm-Regular.ttf
-    - family: IndieFlower
-      fonts:
-        - asset: fonts/IndieFlower-Regular.ttf
-    - family: Kalam
-      fonts:
-        - asset: fonts/Kalam-Light.ttf
-    - family: Merienda
-      fonts:
-        - asset: fonts/Merienda-Regular.ttf
+        - asset: fonts/Cinzel-Regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

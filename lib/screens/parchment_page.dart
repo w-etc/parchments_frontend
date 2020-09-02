@@ -23,7 +23,6 @@ class _ParchmentPageState extends State<ParchmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    const font = 'ArchitectsDaughter';
     return Scaffold(
       body: Center(
         child: FutureBuilder<Parchment>(
@@ -37,16 +36,15 @@ class _ParchmentPageState extends State<ParchmentPage> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(bottom: 50,),
-                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 36, fontFamily: font,),),
+                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 36, fontFamily: 'Cinzel',),),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 100,),
-                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 18, fontFamily: font,),),
+                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: 'NotoSerif', color: Colors.black,),),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 20,),
-                          child: Text('What comes next?', style: TextStyle(fontSize: 48, fontFamily: 'Italianno', color: Colors.black)),
+                          child: Text('What comes next?', style: TextStyle(fontSize: 28, fontFamily: 'Cinzel', color: Colors.black)),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,7 +73,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
 }
 
 Future<Parchment> fetchParchment() async {
-  final response = await http.get('${DotEnv().env['HOST']}/parchment/6');
+  final response = await http.get('${DotEnv().env['HOST']}/parchment/1');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

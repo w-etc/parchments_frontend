@@ -50,10 +50,10 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Flexible(
                         child: TextFormField(
-                          style: TextStyle(fontSize: 36, fontFamily: 'Italianno'),
+                          style: TextStyle(fontSize: 18, fontFamily: 'Cinzel'),
                           decoration: const InputDecoration(
                             hintText: 'Your name',
-                            hintStyle: TextStyle(fontSize: 36, fontFamily: 'Italianno'),
+                            hintStyle: TextStyle(fontSize: 18, fontFamily: 'Cinzel'),
                             contentPadding: EdgeInsets.only(bottom: -15),
                           ),
                           controller: writerNameController,
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     margin: const EdgeInsets.only(top: 50.0),
                     child: FlatButton(
                       onPressed: () => _login(writerNameController.text),
-                      child: Text('Sign', style: TextStyle(fontSize: 48, fontFamily: 'Italianno')),
+                      child: Text('Sign', style: TextStyle(fontSize: 36, fontFamily: 'Cinzel')),
                     ),
                   )
                 ],

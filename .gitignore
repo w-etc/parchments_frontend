@@ -10,6 +10,7 @@
 .svn/
 .env*
 .metadata
+pubspec.lock
 
 # IntelliJ related
 *.iml
@@ -32,6 +33,8 @@
 .pub-cache/
 .pub/
 /build/
+/ios/
+/android/
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -44,7 +47,3 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-/ios/
-/android/
-/android/
-/ios/
