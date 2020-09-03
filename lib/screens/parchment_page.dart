@@ -40,7 +40,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 100,),
-                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: 'NotoSerif', color: Colors.black,),),
+                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: 'NotoSerif', color: Colors.black,), textAlign: TextAlign.justify,),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 20,),
