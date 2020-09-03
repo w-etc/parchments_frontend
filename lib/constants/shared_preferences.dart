@@ -1,0 +1,1 @@
+const WRITER_ID = 'writerId';

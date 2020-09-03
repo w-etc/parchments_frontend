@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:parchments_flutter/constants/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   final String title = 'Login';
@@ -13,8 +17,15 @@ class _LoginPageState extends State<LoginPage> {
   final writerNameController = TextEditingController();
   ScrollController _scrollController = ScrollController();
 
-  Future<void> _login(String writer) async {
-    Navigator.pushNamed(context, "/parchment");
+  Future<void> _login(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.get('${DotEnv().env['HOST']}/writer/$name');
+    if (response.statusCode == 200) {
+      await prefs.setInt(WRITER_ID, jsonDecode(response.body));
+      Navigator.pushNamed(context, "/parchment");
+    } else {
+      //TODO: Show a toast asking the user to try again
+    }
   }
 
   _scrollToBottom() {
@@ -50,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Flexible(
                         child: TextFormField(
-                          style: TextStyle(fontSize: 18, fontFamily: 'Cinzel'),
+                          style: TextStyle(fontSize: 18, fontFamily: 'Cinzel',),
                           decoration: const InputDecoration(
                             hintText: 'Your name',
                             hintStyle: TextStyle(fontSize: 18, fontFamily: 'Cinzel'),
