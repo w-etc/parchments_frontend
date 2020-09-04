@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +22,10 @@ class _ParchmentPageState extends State<ParchmentPage> {
     futureParchment = fetchParchment();
   }
 
+  void _write() {
+    Navigator.pushNamed(context, '/write');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,15 +41,15 @@ class _ParchmentPageState extends State<ParchmentPage> {
                     child: Column(
                       children: [
                         Container(
-                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 36, fontFamily: 'Cinzel',),),
+                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 36, fontFamily: CINZEL,),),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 100,),
-                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: 'NotoSerif', color: Colors.black,), textAlign: TextAlign.justify,),
+                          child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: NOTO_SERIF, color: Colors.black,), textAlign: TextAlign.justify,),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 20,),
-                          child: Text('What comes next?', style: TextStyle(fontSize: 28, fontFamily: 'Cinzel', color: Colors.black)),
+                          child: Text('What comes next?', style: TextStyle(fontSize: 28, fontFamily: CINZEL, color: Colors.black)),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,6 +58,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                               child: Image(image: AssetImage('assets/glasses.png'), width: 60,),
                             ),
                             FlatButton(
+                              onPressed: _write,
                               child: Image(image: AssetImage('assets/feather_right.png'), width: 42,),
                             ),
                           ],
@@ -63,7 +69,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                 ],
               );
             } else {
-              return Text("${snapshot.error}");
+              return Text('${snapshot.error}');
             }
           },
         ),
@@ -73,15 +79,11 @@ class _ParchmentPageState extends State<ParchmentPage> {
 }
 
 Future<Parchment> fetchParchment() async {
-  final response = await http.get('${DotEnv().env['HOST']}/parchment/1');
+  final response = await http.get('$BACKEND_URL/parchment/1');
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
     return Parchment.fromJson(json.decode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load parchment');
+    return Parchment(contents: 'It seems we couldn\'t get this Parchment');
   }
 }
