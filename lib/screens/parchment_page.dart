@@ -16,11 +16,6 @@ class ParchmentPage extends StatefulWidget {
 class _ParchmentPageState extends State<ParchmentPage> {
   Future<Parchment> futureParchment;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void _write(int parchmentId) {
     Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchmentId);
   }
