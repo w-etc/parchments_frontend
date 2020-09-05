@@ -54,10 +54,10 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
             padding: EdgeInsets.only(top: 30, left: 40, right: 40,),
             child: TextFormField(
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontFamily: 'Cinzel',),
+              style: TextStyle(fontSize: 26, fontFamily: 'Cinzel',),
               decoration: InputDecoration.collapsed(
                 hintText: 'Title',
-                hintStyle: TextStyle(fontSize: 18, fontFamily: 'Cinzel',),
+                hintStyle: TextStyle(fontSize: 26, fontFamily: 'Cinzel',),
               ),
               controller: parchmentTitleController,
             ),

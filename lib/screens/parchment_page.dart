@@ -41,10 +41,10 @@ class _ParchmentPageState extends State<ParchmentPage> {
                     child: Column(
                       children: [
                         Container(
-                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 36, fontFamily: CINZEL,),),
+                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL,),),
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom: 100,),
+                          padding: EdgeInsets.only(bottom: 100, top: 30,),
                           child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: NOTO_SERIF, color: Colors.black,), textAlign: TextAlign.justify,),
                         ),
                         Container(
