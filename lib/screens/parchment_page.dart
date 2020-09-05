@@ -21,8 +21,8 @@ class _ParchmentPageState extends State<ParchmentPage> {
     super.initState();
   }
 
-  void _write() {
-    Navigator.pushNamed(context, '/write');
+  void _write(int parchmentId) {
+    Navigator.pushNamed(context, '/write', arguments: parchmentId);
   }
   
   void _readContinuations(List<Parchment> continuations) {
@@ -65,7 +65,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                               child: Image(image: AssetImage('assets/glasses.png'), width: 60,),
                             ),
                             FlatButton(
-                              onPressed: _write,
+                              onPressed: () => _write(snapshot.data.id),
                               child: Image(image: AssetImage('assets/feather_right.png'), width: 42,),
                             ),
                           ],

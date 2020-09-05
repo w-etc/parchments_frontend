@@ -19,6 +19,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentBodyController = TextEditingController();
 
   Future<void> _save() async {
+    final int parchmentId = ModalRoute.of(context).settings.arguments;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final writerId = prefs.getInt(WRITER_ID);
     final response = await http.post(
@@ -27,12 +28,12 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
         body: jsonEncode({
           'parchment': {'title': parchmentTitleController.text, 'contents': parchmentBodyController.text,},
           'writerId': writerId,
-          'previousParchmentId': 1,
+          'previousParchmentId': parchmentId,
         })
     );
     if (response.statusCode == 200) {
       print('Success!');
-      Navigator.pushReplacementNamed(context, '/parchment');
+      Navigator.pushReplacementNamed(context, '/parchment', arguments: parchmentId);
     } else {
       print('Failed');
     }
