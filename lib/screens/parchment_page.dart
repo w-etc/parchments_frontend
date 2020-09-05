@@ -19,15 +19,21 @@ class _ParchmentPageState extends State<ParchmentPage> {
   @override
   void initState() {
     super.initState();
-    futureParchment = fetchParchment();
   }
 
   void _write() {
     Navigator.pushNamed(context, '/write');
   }
+  
+  void _readContinuations(List<Parchment> continuations) {
+    Navigator.pushNamed(context, '/parchment/continuations', arguments: continuations);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final int parchmentId = ModalRoute.of(context).settings.arguments;
+    futureParchment = fetchParchment(parchmentId);
+
     return Scaffold(
       body: Center(
         child: FutureBuilder<Parchment>(
@@ -55,6 +61,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             FlatButton(
+                              onPressed: () =>_readContinuations(snapshot.data.continuations),
                               child: Image(image: AssetImage('assets/glasses.png'), width: 60,),
                             ),
                             FlatButton(
@@ -78,8 +85,8 @@ class _ParchmentPageState extends State<ParchmentPage> {
   }
 }
 
-Future<Parchment> fetchParchment() async {
-  final response = await http.get('$BACKEND_URL/parchment/1');
+Future<Parchment> fetchParchment(parchmentId) async {
+  final response = await http.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}');
 
   if (response.statusCode == 200) {
     return Parchment.fromJson(json.decode(response.body));

@@ -20,8 +20,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
 
   Future<void> _save() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final writerId = await prefs.getInt(WRITER_ID);
-    print(writerId);
+    final writerId = prefs.getInt(WRITER_ID);
     final response = await http.post(
         '$BACKEND_URL/parchment',
         headers: {'Content-type': 'application/json'},
@@ -33,7 +32,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     );
     if (response.statusCode == 200) {
       print('Success!');
-      Navigator.pushNamed(context, '/parchment');
+      Navigator.pushReplacementNamed(context, '/parchment');
     } else {
       print('Failed');
     }
