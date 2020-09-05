@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/parchment_card.dart';
+import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 
 class ContinuationsPage extends StatefulWidget {
@@ -15,9 +16,15 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(left: 30, right: 30,),
-        child: ListView(
-          children: parchments.map((parchment) => ParchmentCard(parchment: parchment,)).toList(),
-        ),
+        child:
+          parchments != null
+            ? ListView(
+              children: parchments.map((parchment) => ParchmentCard(parchment: parchment,)).toList()
+            )
+            : Container(
+                padding: EdgeInsets.only(top: 150),
+                child: Text('Nothing follows...', style: TextStyle(fontFamily: NOTO_SERIF, fontSize: 18),)
+            ,)
       )
     );
   }
