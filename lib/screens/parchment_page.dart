@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:parchments_flutter/routes.dart';
 
 class ParchmentPage extends StatefulWidget {
-  final String title = 'Login';
 
   @override
   _ParchmentPageState createState() => _ParchmentPageState();
