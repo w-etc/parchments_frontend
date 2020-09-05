@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/shared_preferences.dart';
 import 'package:parchments_flutter/constants/urls.dart';
+import 'package:parchments_flutter/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     final response = await http.get('$BACKEND_URL/writer/$name');
     if (response.statusCode == 200) {
       await prefs.setInt(WRITER_ID, jsonDecode(response.body));
-      Navigator.pushNamed(context, '/parchment');
+      Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL);
     } else {
       //TODO: Show a toast asking the user to try again
     }

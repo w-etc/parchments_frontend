@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/routes.dart';
 
 class ParchmentCard extends StatefulWidget {
   final Parchment parchment;
@@ -13,7 +14,7 @@ class ParchmentCard extends StatefulWidget {
 class _ParchmentCardState extends State<ParchmentCard> {
 
   Future<void> _goToDetail() async {
-    Navigator.pushNamed(context, '/parchment', arguments: widget.parchment.id);
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: widget.parchment.id);
   }
 
   @override

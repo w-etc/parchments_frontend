@@ -5,6 +5,7 @@ import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:http/http.dart' as http;
+import 'package:parchments_flutter/routes.dart';
 
 class ParchmentPage extends StatefulWidget {
   final String title = 'Login';
@@ -22,11 +23,11 @@ class _ParchmentPageState extends State<ParchmentPage> {
   }
 
   void _write(int parchmentId) {
-    Navigator.pushNamed(context, '/write', arguments: parchmentId);
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchmentId);
   }
   
   void _readContinuations(List<Parchment> continuations) {
-    Navigator.pushNamed(context, '/parchment/continuations', arguments: continuations);
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_CONTINUATIONS, arguments: continuations);
   }
 
   @override

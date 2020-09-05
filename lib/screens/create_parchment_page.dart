@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/shared_preferences.dart';
 import 'package:parchments_flutter/constants/urls.dart';
+import 'package:parchments_flutter/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +34,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     );
     if (response.statusCode == 200) {
       print('Success!');
-      Navigator.pushReplacementNamed(context, '/parchment', arguments: parchmentId);
+      Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: parchmentId);
     } else {
       print('Failed');
     }
