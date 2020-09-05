@@ -33,6 +33,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     );
     if (response.statusCode == 200) {
       print('Success!');
+      Navigator.pushNamed(context, '/parchment');
     } else {
       print('Failed');
     }
