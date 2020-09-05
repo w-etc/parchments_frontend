@@ -25,7 +25,11 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     final response = await http.post(
         '$BACKEND_URL/parchment',
         headers: {'Content-type': 'application/json'},
-        body: jsonEncode({'parchment': {'title': parchmentTitleController.text, 'contents': parchmentBodyController.text,}, 'writerId': writerId})
+        body: jsonEncode({
+          'parchment': {'title': parchmentTitleController.text, 'contents': parchmentBodyController.text,},
+          'writerId': writerId,
+          'previousParchmentId': 1,
+        })
     );
     if (response.statusCode == 200) {
       print('Success!');
