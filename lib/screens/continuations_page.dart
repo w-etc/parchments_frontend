@@ -15,14 +15,14 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
     final List<Parchment> parchments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 30, right: 30,),
         child:
           parchments != null
             ? ListView(
+              padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
               children: parchments.map((parchment) => ParchmentCard(parchment: parchment,)).toList()
             )
             : Container(
-                padding: EdgeInsets.only(top: 150),
+                padding: EdgeInsets.only(top: 150, left: 30, right: 30,),
                 child: Text('Nothing follows...', style: TextStyle(fontFamily: NOTO_SERIF, fontSize: 18),)
             ,)
       )
