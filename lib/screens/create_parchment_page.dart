@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
-import 'package:parchments_flutter/constants/shared_preferences.dart';
-import 'package:parchments_flutter/constants/urls.dart';
+import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:parchments_flutter/services/http_service.dart';
 
 class CreateParchmentPage extends StatefulWidget {
 
@@ -20,24 +16,13 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentBodyController = TextEditingController();
 
   Future<void> _save() async {
-    final int parchmentId = ModalRoute.of(context).settings.arguments;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final writerId = prefs.getInt(WRITER_ID);
-    final response = await http.post(
-        '$BACKEND_URL/parchment',
-        headers: {'Content-type': 'application/json'},
-        body: jsonEncode({
-          'parchment': {'title': parchmentTitleController.text, 'contents': parchmentBodyController.text,},
-          'writerId': writerId,
-          'previousParchmentId': parchmentId,
-        })
-    );
-    if (response.statusCode == 200) {
-      print('Success!');
-      Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: parchmentId);
-    } else {
-      print('Failed');
-    }
+    final int previousParchmentId = ModalRoute.of(context).settings.arguments;
+    await HttpService.createParchment(previousParchmentId, _currentParchment());
+    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: previousParchmentId);
+  }
+
+  Parchment _currentParchment() {
+    return Parchment(title: parchmentTitleController.text, contents: parchmentBodyController.text);
   }
 
   @override

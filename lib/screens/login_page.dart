@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
-import 'package:parchments_flutter/constants/shared_preferences.dart';
-import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:parchments_flutter/services/http_service.dart';
+import 'package:parchments_flutter/services/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -18,14 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   final writerNameController = TextEditingController();
 
   Future<void> _login(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await http.get('$BACKEND_URL/writer/$name');
-    if (response.statusCode == 200) {
-      await prefs.setInt(WRITER_ID, jsonDecode(response.body));
-      Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL);
-    } else {
-      //TODO: Show a toast asking the user to try again
-    }
+    final writerId = await HttpService.login(name);
+    await setWriterId(writerId);
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL);
   }
 
   @override

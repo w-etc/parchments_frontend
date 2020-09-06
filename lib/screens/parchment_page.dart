@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
-import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import 'package:http/http.dart' as http;
 import 'package:parchments_flutter/routes.dart';
+import 'package:parchments_flutter/services/http_service.dart';
 
 class ParchmentPage extends StatefulWidget {
 
@@ -27,7 +24,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
   @override
   Widget build(BuildContext context) {
     final int parchmentId = ModalRoute.of(context).settings.arguments;
-    futureParchment = fetchParchment(parchmentId);
+    futureParchment = HttpService.getParchment(parchmentId);
 
     return Scaffold(
       body: Center(
@@ -77,15 +74,5 @@ class _ParchmentPageState extends State<ParchmentPage> {
         ),
       ),
     );
-  }
-}
-
-Future<Parchment> fetchParchment(parchmentId) async {
-  final response = await http.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}');
-
-  if (response.statusCode == 200) {
-    return Parchment.fromJson(json.decode(response.body));
-  } else {
-    return Parchment(contents: 'It seems we couldn\'t get this Parchment');
   }
 }
