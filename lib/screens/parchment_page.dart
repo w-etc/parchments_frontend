@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/components/diamond_painter.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
@@ -39,7 +40,14 @@ class _ParchmentPageState extends State<ParchmentPage> {
                     child: Column(
                       children: [
                         Container(
-                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL,),),
+                          alignment: Alignment.center,
+                          child: CustomPaint(
+                          painter: DiamondPainter(length: 20),
+                          )
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 40),
+                          child: Text(snapshot.data.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),),
                         ),
                         Container(
                           padding: EdgeInsets.only(bottom: 100, top: 30,),

@@ -19,7 +19,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
       separatedCards.add(Container(
         alignment: Alignment.center,
         child: CustomPaint(
-          painter: DiamondPainter(),
+          painter: DiamondPainter(length: 10),
         )
       ));
       separatedCards.add(ParchmentCard(parchment: parchment));
