@@ -50,7 +50,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                           child: Text(snapshot.data.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),),
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom: 100, top: 30,),
+                          padding: EdgeInsets.only(bottom: 100, top: 15,),
                           child: Text(snapshot.data.contents, style: TextStyle(fontSize: 16, fontFamily: NOTO_SERIF, color: Colors.black,), textAlign: TextAlign.justify,),
                         ),
                         Container(
@@ -60,13 +60,13 @@ class _ParchmentPageState extends State<ParchmentPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            FlatButton(
-                              onPressed: () =>_readContinuations(snapshot.data.continuations),
-                              child: Image(image: AssetImage('assets/glasses.png'), width: 60,),
+                            GestureDetector(
+                              onTap: () =>_readContinuations(snapshot.data.continuations),
+                              child: Image(image: AssetImage('assets/glasses_white.png'), width: 60,),
                             ),
-                            FlatButton(
-                              onPressed: () => _write(snapshot.data.id),
-                              child: Image(image: AssetImage('assets/feather_right.png'), width: 42,),
+                            GestureDetector(
+                              onTap: () => _write(snapshot.data.id),
+                              child: Image(image: AssetImage('assets/pen_white.png'), width: 60,),
                             ),
                           ],
                         ),
