@@ -13,6 +13,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final writerNameController = TextEditingController();
+  Color penColor = Colors.black54;
+
+  void _togglePenColor(bool hasFocus) {
+    setState(() {
+      penColor = hasFocus ? Colors.black : Colors.black54;
+    });
+  }
 
   Future<void> _login(String name) async {
     final writerId = await HttpService.login(name);
@@ -30,26 +37,33 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Flexible(
-                  child: TextFormField(
-                    style: TextStyle(fontSize: 18, fontFamily: CINZEL,),
-                    decoration: const InputDecoration(
-                      hintText: 'Your name',
-                      hintStyle: TextStyle(fontSize: 18, fontFamily: CINZEL),
-                      contentPadding: EdgeInsets.only(bottom: -15),
+                  child: Focus(
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 18, fontFamily: CINZEL,),
+                      decoration: InputDecoration(
+                        hintText: 'Your name',
+                        hintStyle: TextStyle(fontSize: 18, fontFamily: CINZEL),
+                        contentPadding: EdgeInsets.only(bottom: -15),
+                      ),
+                      controller: writerNameController,
                     ),
-                    controller: writerNameController,
+                      onFocusChange: _togglePenColor,
                   ),
                 ),
-                Image(image: AssetImage('assets/feather_left.png'), width: 50,),
+                Container(
+                  padding: EdgeInsets.only(bottom: 0),
+                  child: Image(image: AssetImage('assets/pen_black.png'), height: 40, color: penColor,),
+                ),
               ],
             ),
             Container(
               margin: const EdgeInsets.only(top: 50.0),
               child: FlatButton(
                 onPressed: () => _login(writerNameController.text),
-                child: Text('Sign', style: TextStyle(fontSize: 36, fontFamily: CINZEL)),
+                child: Text('Sign', style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
               ),
             )
           ],
