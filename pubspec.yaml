@@ -71,6 +71,8 @@ flutter:
     - family: Cinzel
       fonts:
         - asset: fonts/Cinzel-Medium.ttf
+        - asset: fonts/Cinzel-Bold.ttf
+          weight: 700
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

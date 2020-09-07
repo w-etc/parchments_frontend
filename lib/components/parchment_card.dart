@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/components/angle_painter_down.dart';
+import 'package:parchments_flutter/components/angle_painter_up.dart';
+import 'package:parchments_flutter/components/diamond_painter.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
@@ -20,16 +23,32 @@ class _ParchmentCardState extends State<ParchmentCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(bottom: 30, top: 30),
       child: GestureDetector(
         onTap: _goToDetail,
         child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black,)),
           child: Column(
             children: [
-              Text(widget.parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL,),),
-              Text(widget.parchment.contents, style: TextStyle(fontSize: 16, fontFamily: NOTO_SERIF), textAlign: TextAlign.justify,),
+              Container(
+                alignment: Alignment.topLeft,
+                child: CustomPaint(
+                  painter: AnglePainterUp(),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 10,),
+                child: Text(widget.parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 25, right: 25, bottom: 10,),
+                child: Text(widget.parchment.contents, style: TextStyle(fontSize: 14, fontFamily: NOTO_SERIF), textAlign: TextAlign.justify,),
+              ),
+              Container(
+                alignment: Alignment.bottomRight,
+                child: CustomPaint(
+                  painter: AnglePainterDown(),
+                ),
+              ),
             ],
           ),
         ),
