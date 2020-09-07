@@ -17,8 +17,8 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
 
   Future<void> _save() async {
     final int previousParchmentId = ModalRoute.of(context).settings.arguments;
-    await HttpService.createParchment(previousParchmentId, _currentParchment());
-    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: previousParchmentId);
+    num createdParchmentId = await HttpService.createParchment(previousParchmentId, _currentParchment());
+    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchmentId);
   }
 
   Parchment _currentParchment() {

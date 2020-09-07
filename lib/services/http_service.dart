@@ -26,7 +26,7 @@ class HttpService {
     }
   }
 
-  static Future<void> createParchment(int previousParchmentId, Parchment parchment) async {
+  static Future<num> createParchment(int previousParchmentId, Parchment parchment) async {
     final writerId = await getWriterId();
     final response = await http.post(
         '$BACKEND_URL/parchment',
@@ -42,5 +42,6 @@ class HttpService {
     } else {
       print('Failed');
     }
+    return json.decode(response.body);
   }
 }
