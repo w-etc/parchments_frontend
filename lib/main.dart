@@ -27,19 +27,19 @@ class MyApp extends StatelessWidget {
               return LoginPage();
             });
           case ROUTES_PARCHMENT_DETAIL:
-            final int parchmentId = settings.arguments;
+            final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
-              return ParchmentPage(parchmentId: parchmentId);
+              return ParchmentPage(parchment: parchment);
             });
           case ROUTES_PARCHMENT_CREATE:
-            final int parchmentId = settings.arguments;
+            final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
-              return CreateParchmentPage(parentParchmentId: parchmentId,);
+              return CreateParchmentPage(parentParchment: parchment,);
             });
           case ROUTES_PARCHMENT_CONTINUATIONS:
-            final List<Parchment> continuations = settings.arguments;
+            final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
-              return ContinuationsPage(continuations: continuations,);
+              return ContinuationsPage(parchment: parchment,);
             });
         }
       },

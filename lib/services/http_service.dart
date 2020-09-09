@@ -26,7 +26,7 @@ class HttpService {
     }
   }
 
-  static Future<num> createParchment(int previousParchmentId, Parchment parchment) async {
+  static Future<Parchment> createParchment(Parchment parchment) async {
     final writerId = await getWriterId();
     final response = await http.post(
         '$BACKEND_URL/parchment',
@@ -34,7 +34,7 @@ class HttpService {
         body: jsonEncode({
           'parchment': {'title': parchment.title, 'contents': parchment.contents,},
           'writerId': writerId,
-          'previousParchmentId': previousParchmentId,
+          'previousParchmentId': parchment.parentParchmentId,
         })
     );
     if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ class HttpService {
     } else {
       print('Failed');
     }
-    return json.decode(response.body);
+    return Parchment.fromJson(json.decode(response.body));
   }
 
   static Future<List<Parchment>> getContinuations(int parchmentId) async {

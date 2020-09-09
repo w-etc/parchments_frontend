@@ -6,11 +6,11 @@ import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class CreateParchmentPage extends StatefulWidget {
-  final int parentParchmentId;
+  final Parchment parentParchment;
 
   const CreateParchmentPage({
     Key key,
-    @required this.parentParchmentId,
+    @required this.parentParchment,
   }): super(key: key);
 
 
@@ -23,12 +23,12 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentBodyController = TextEditingController();
 
   Future<void> _save() async {
-    num createdParchmentId = await HttpService.createParchment(widget.parentParchmentId, _currentParchment());
-    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchmentId);
+    Parchment createdParchment = await HttpService.createParchment(_currentParchment());
+    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchment);
   }
 
   Parchment _currentParchment() {
-    return Parchment(title: parchmentTitleController.text, contents: parchmentBodyController.text);
+    return Parchment(parentParchmentId: widget.parentParchment.id, title: parchmentTitleController.text, contents: parchmentBodyController.text);
   }
 
   @override

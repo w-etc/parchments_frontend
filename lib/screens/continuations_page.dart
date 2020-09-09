@@ -5,11 +5,11 @@ import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 
 class ContinuationsPage extends StatefulWidget {
-  final List<Parchment> continuations;
+  final Parchment parchment;
 
   const ContinuationsPage({
     Key key,
-    @required this.continuations,
+    @required this.parchment,
   }): super(key: key);
 
   @override
@@ -39,10 +39,10 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
     return Scaffold(
       body: Container(
         child:
-          widget.continuations.length > 0
+          widget.parchment.continuations.length > 0
             ? ListView(
               padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
-              children: separatedParchmentCards(widget.continuations)
+              children: separatedParchmentCards(widget.parchment.continuations)
             )
             : Container(
                 padding: EdgeInsets.only(top: 150, left: 30, right: 30,),

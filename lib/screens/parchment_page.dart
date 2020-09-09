@@ -6,11 +6,11 @@ import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class ParchmentPage extends StatefulWidget {
-  final int parchmentId;
+  final Parchment parchment;
 
   const ParchmentPage({
     Key key,
-    @required this.parchmentId,
+    @required this.parchment,
   }): super(key: key);
 
   @override
@@ -23,15 +23,15 @@ class _ParchmentPageState extends State<ParchmentPage> {
   @override
   void initState() {
     super.initState();
-    futureParchment = HttpService.getParchment(widget.parchmentId);
+    futureParchment = HttpService.getParchment(widget.parchment.id);
   }
 
-  void _write(int parchmentId) {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchmentId);
+  void _write(Parchment parchment) {
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchment);
   }
   
-  void _readContinuations(List<Parchment> continuations) {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_CONTINUATIONS, arguments: continuations);
+  void _readContinuations(Parchment parchment) {
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_CONTINUATIONS, arguments: parchment);
   }
 
   @override
@@ -71,11 +71,11 @@ class _ParchmentPageState extends State<ParchmentPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             GestureDetector(
-                              onTap: () =>_readContinuations(snapshot.data.continuations),
+                              onTap: () =>_readContinuations(snapshot.data),
                               child: Image(image: AssetImage('assets/glasses_white.png'), width: 60,),
                             ),
                             GestureDetector(
-                              onTap: () => _write(snapshot.data.id),
+                              onTap: () => _write(snapshot.data),
                               child: Image(image: AssetImage('assets/pen_white.png'), width: 60,),
                             ),
                           ],

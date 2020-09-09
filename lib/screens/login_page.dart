@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 import 'package:parchments_flutter/services/shared_preferences.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login(String name) async {
     final writerId = await HttpService.login(name);
     await setWriterId(writerId);
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL);
+    Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
   }
 
   @override
