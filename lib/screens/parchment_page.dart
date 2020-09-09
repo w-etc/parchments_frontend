@@ -35,7 +35,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
   }
 
   Future<bool> _onBack(Parchment parchment) async {
-    if (widget.parchment.parentParchmentId != null) {
+    if (parchment.parentParchmentId != null) {
       Navigator.pushNamed(context, ROUTES_PARCHMENT_CONTINUATIONS, arguments: Parchment(id: parchment.parentParchmentId, continuations: []));
     } else {
       Navigator.pushNamed(context, ROUTES_HOME);
