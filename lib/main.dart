@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
+import 'package:parchments_flutter/screens/continuations_page.dart';
+import 'package:parchments_flutter/screens/create_parchment_page.dart';
+import 'package:parchments_flutter/screens/login_page.dart';
+import 'package:parchments_flutter/screens/parchment_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -10,13 +14,35 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Parchments',
       initialRoute: '/',
-      routes: routes,
+      // ignore: missing_return
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case ROUTES_HOME:
+            return MaterialPageRoute(builder: (_) {
+              return LoginPage();
+            });
+          case ROUTES_PARCHMENT_DETAIL:
+            final int parchmentId = settings.arguments;
+            return MaterialPageRoute(builder: (_) {
+              return ParchmentPage(parchmentId: parchmentId);
+            });
+          case ROUTES_PARCHMENT_CREATE:
+            final int parchmentId = settings.arguments;
+            return MaterialPageRoute(builder: (_) {
+              return CreateParchmentPage(parentParchmentId: parchmentId,);
+            });
+          case ROUTES_PARCHMENT_CONTINUATIONS:
+            final List<Parchment> continuations = settings.arguments;
+            return MaterialPageRoute(builder: (_) {
+              return ContinuationsPage(continuations: continuations,);
+            });
+        }
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //

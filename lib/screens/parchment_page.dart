@@ -6,6 +6,12 @@ import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class ParchmentPage extends StatefulWidget {
+  final int parchmentId;
+
+  const ParchmentPage({
+    Key key,
+    @required this.parchmentId,
+  }): super(key: key);
 
   @override
   _ParchmentPageState createState() => _ParchmentPageState();
@@ -13,6 +19,12 @@ class ParchmentPage extends StatefulWidget {
 
 class _ParchmentPageState extends State<ParchmentPage> {
   Future<Parchment> futureParchment;
+
+  @override
+  void initState() {
+    super.initState();
+    futureParchment = HttpService.getParchment(widget.parchmentId);
+  }
 
   void _write(int parchmentId) {
     Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchmentId);
@@ -24,8 +36,6 @@ class _ParchmentPageState extends State<ParchmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final int parchmentId = ModalRoute.of(context).settings.arguments;
-    futureParchment = HttpService.getParchment(parchmentId);
 
     return Scaffold(
       body: Center(

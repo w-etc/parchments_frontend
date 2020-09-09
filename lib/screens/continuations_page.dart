@@ -5,6 +5,13 @@ import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 
 class ContinuationsPage extends StatefulWidget {
+  final List<Parchment> continuations;
+
+  const ContinuationsPage({
+    Key key,
+    @required this.continuations,
+  }): super(key: key);
+
   @override
   _ContinuationsPageState createState() => _ContinuationsPageState();
 }
@@ -29,14 +36,13 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Parchment> parchments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Container(
         child:
-          parchments != null
+          widget.continuations != null
             ? ListView(
               padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
-              children: separatedParchmentCards(parchments)
+              children: separatedParchmentCards(widget.continuations)
             )
             : Container(
                 padding: EdgeInsets.only(top: 150, left: 30, right: 30,),

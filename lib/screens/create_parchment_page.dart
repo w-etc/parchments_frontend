@@ -6,6 +6,13 @@ import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class CreateParchmentPage extends StatefulWidget {
+  final int parentParchmentId;
+
+  const CreateParchmentPage({
+    Key key,
+    @required this.parentParchmentId,
+  }): super(key: key);
+
 
   @override
   _CreateParchmentPageState createState() => _CreateParchmentPageState();
@@ -16,8 +23,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentBodyController = TextEditingController();
 
   Future<void> _save() async {
-    final int previousParchmentId = ModalRoute.of(context).settings.arguments;
-    num createdParchmentId = await HttpService.createParchment(previousParchmentId, _currentParchment());
+    num createdParchmentId = await HttpService.createParchment(widget.parentParchmentId, _currentParchment());
     Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchmentId);
   }
 
