@@ -39,7 +39,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
     return Scaffold(
       body: Container(
         child:
-          widget.continuations != null
+          widget.continuations.length > 0
             ? ListView(
               padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
               children: separatedParchmentCards(widget.continuations)
