@@ -10,7 +10,7 @@ class Parchment {
   factory Parchment.fromJson(Map<String, dynamic> json) {
     final continuations = json['continuations'] as List;
     return Parchment(
-      parentParchmentId: json['parentParchment'] != null ? json['parentParchment.id'] : null,
+      parentParchmentId: json['parentParchment'] != null ? json['parentParchment']['id'] : null,
       id: json['id'],
       title: json['title'],
       contents: json['contents'],

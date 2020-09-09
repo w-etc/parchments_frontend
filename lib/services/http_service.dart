@@ -45,16 +45,11 @@ class HttpService {
     return Parchment.fromJson(json.decode(response.body));
   }
 
-  static Future<List<Parchment>> getContinuations(int parchmentId) async {
-    final response = await http.get('$BACKEND_URL/parchment/$parchmentId/continuations');
-
-    if (response.statusCode == 200) {
-      print(json.decode(response.body));
-      final continuations = json.decode(response.body) as List;
-      print(continuations[0]);
-      return continuations.map((continuation) => Parchment.fromJson(continuation)).toList();
-    } else {
-      return [];
+  static Future<List<Parchment>> getContinuations(Parchment parchment) async {
+    if (parchment.continuations.length > 0) {
+      return parchment.continuations;
     }
+    Parchment retrievedParchment = await getParchment(parchment.id);
+    return retrievedParchment.continuations;
   }
 }
