@@ -40,7 +40,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
               ),
               Container(
                 padding: EdgeInsets.only(left: 25, right: 25, bottom: 10,),
-                child: Text(widget.parchment.contents, style: TextStyle(fontSize: 14, fontFamily: NOTO_SERIF), textAlign: TextAlign.justify,),
+                child: Text(widget.parchment.contents, style: TextStyle(fontSize: 14, fontFamily: NOTO_SERIF), textAlign: TextAlign.justify, maxLines: 6, overflow: TextOverflow.ellipsis,),
               ),
               Container(
                 alignment: Alignment.bottomRight,
