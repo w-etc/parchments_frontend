@@ -72,7 +72,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> {
               ),
             );
           } else {
-            return Text('${snapshot.error}');
+            return Container();
           }
         }
     );

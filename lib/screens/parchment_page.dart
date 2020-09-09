@@ -100,7 +100,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
               ),
             );
           } else {
-            return Text('${snapshot.error}');
+            return Container();
           }
         });
   }
