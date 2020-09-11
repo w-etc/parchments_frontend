@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:parchments_flutter/components/diamond_painter.dart';
+import 'package:parchments_flutter/components/painters/diamond_painter.dart';
+import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
@@ -24,10 +25,6 @@ class _ParchmentPageState extends State<ParchmentPage> {
   void initState() {
     super.initState();
     futureParchment = HttpService.getParchment(widget.parchment.id);
-  }
-
-  void _write(Parchment parchment) {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchment);
   }
   
   void _readContinuations(Parchment parchment) {
@@ -85,10 +82,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                                   onTap: () =>_readContinuations(snapshot.data),
                                   child: Image(image: AssetImage('assets/glasses_white.png'), width: 60,),
                                 ),
-                                GestureDetector(
-                                  onTap: () => _write(snapshot.data),
-                                  child: Image(image: AssetImage('assets/pen_white.png'), width: 60,),
-                                ),
+                                WriteButton(parchment: snapshot.data,),
                               ],
                             ),
                           ],

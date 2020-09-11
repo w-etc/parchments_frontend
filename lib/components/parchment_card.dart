@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:parchments_flutter/components/angle_painter_down.dart';
-import 'package:parchments_flutter/components/angle_painter_up.dart';
+import 'package:parchments_flutter/components/painters/angle_painter_down.dart';
+import 'package:parchments_flutter/components/painters/angle_painter_up.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
