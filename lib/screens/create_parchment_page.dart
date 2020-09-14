@@ -5,6 +5,9 @@ import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
+const TITLE_INPUT_KEY = Key('create_parchment_page_title_input');
+const CONTENTS_INPUT_KEY = Key('create_parchment_page_contents_input');
+
 class CreateParchmentPage extends StatefulWidget {
   final Parchment parentParchment;
 
@@ -49,7 +52,8 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
         children: [
           Container(
             padding: EdgeInsets.only(top: 30, left: 40, right: 40,),
-            child: TextFormField(
+            child: TextField(
+              key: TITLE_INPUT_KEY,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),
               decoration: InputDecoration.collapsed(
@@ -69,6 +73,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
               child: Container(
                 padding: EdgeInsets.only(top: 50, left: 20, right: 20,),
                 child: TextField(
+                  key: CONTENTS_INPUT_KEY,
                   maxLines: null,
                   decoration: InputDecoration.collapsed(hintText: 'Once upon a time...', hintStyle: TextStyle(fontFamily: NOTO_SERIF,),),
                   style: TextStyle(fontFamily: NOTO_SERIF,),
