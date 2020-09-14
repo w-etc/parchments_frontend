@@ -24,6 +24,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
     return Padding(
       padding: EdgeInsets.only(bottom: 30, top: 30),
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: _goToDetail,
         child: Container(
           child: Column(
