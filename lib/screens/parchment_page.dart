@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/painters/diamond_painter.dart';
+import 'package:parchments_flutter/components/read_continuations_button.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
@@ -25,10 +26,6 @@ class _ParchmentPageState extends State<ParchmentPage> {
   void initState() {
     super.initState();
     futureParchment = HttpService.getParchment(widget.parchment.id);
-  }
-  
-  void _readContinuations(Parchment parchment) {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_CONTINUATIONS, arguments: parchment);
   }
 
   Future<bool> _onBack(Parchment parchment) async {
@@ -78,10 +75,7 @@ class _ParchmentPageState extends State<ParchmentPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                GestureDetector(
-                                  onTap: () =>_readContinuations(snapshot.data),
-                                  child: Image(image: AssetImage('assets/glasses_white.png'), width: 60,),
-                                ),
+                                ReadContinuationsButton(parchment: snapshot.data,),
                                 WriteButton(parchment: snapshot.data,),
                               ],
                             ),

@@ -1,14 +1,16 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client;
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/services/shared_preferences.dart';
 
 class HttpService {
 
+  static Client client = Client();
+
   static Future<int> login(String name) async {
-    final response = await http.get('$BACKEND_URL/writer/$name');
+    final response = await client.get('$BACKEND_URL/writer/$name');
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -17,7 +19,7 @@ class HttpService {
   }
 
   static Future<Parchment> getParchment(int parchmentId) async {
-    final response = await http.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}');
+    final response = await client.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}');
 
     if (response.statusCode == 200) {
       return Parchment.fromJson(json.decode(response.body));
@@ -28,7 +30,7 @@ class HttpService {
 
   static Future<Parchment> createParchment(Parchment parchment) async {
     final writerId = await getWriterId();
-    final response = await http.post(
+    final response = await client.post(
         '$BACKEND_URL/parchment',
         headers: {'Content-type': 'application/json'},
         body: jsonEncode({
