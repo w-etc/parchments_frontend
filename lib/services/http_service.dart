@@ -20,7 +20,7 @@ class HttpService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      //TODO: Show a toast asking the user to try again
+      return null;
     }
   }
 
