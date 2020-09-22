@@ -10,6 +10,7 @@ import 'package:parchments_flutter/screens/create_parchment_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../mocks/mock_token_retriever.dart';
 import '../utils.dart';
 
 const PARCHMENT_DETAIL_KEY = Key('parchment_detail_key');
@@ -31,8 +32,7 @@ void main() {
   MaterialApp widget;
 
   setUp(() {
-    SharedPreferences.setMockInitialValues({'writerId': 1});
-
+    HttpService.tokenRetriever = MockTokenRetriever();
     HttpService.client = MockClient((request) async {
       parchmentRequest = request;
       return Response(jsonEncode({}), 200);

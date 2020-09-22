@@ -1,16 +1,22 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' show Client;
+import 'package:parchments_flutter/constants/util.dart';
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import 'package:parchments_flutter/services/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HttpService {
 
   static Client client = Client();
+  static TokenRetriever tokenRetriever = TokenRetriever();
 
-  static Future<int> login(String name) async {
-    final response = await client.get('$BACKEND_URL/writer/$name');
+  static Future<Map<String, dynamic>> login(String username, String password) async {
+    final response = await client.post(
+      '$BACKEND_URL/writer/login',
+      headers: {'Content-type': 'application/json'},
+      body: jsonEncode({'username': username, 'password': password}),
+    );
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -19,7 +25,8 @@ class HttpService {
   }
 
   static Future<Parchment> getParchment(int parchmentId) async {
-    final response = await client.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}');
+    final token = await tokenRetriever.getToken();
+    final response = await client.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}', headers: {'Authorization': 'Bearer $token'});
 
     if (response.statusCode == 200) {
       return Parchment.fromJson(json.decode(response.body));
@@ -29,13 +36,12 @@ class HttpService {
   }
 
   static Future<Parchment> createParchment(Parchment parchment) async {
-    final writerId = await getWriterId();
+    final token = await tokenRetriever.getToken();
     final response = await client.post(
         '$BACKEND_URL/parchment',
-        headers: {'Content-type': 'application/json'},
+        headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},
         body: jsonEncode({
           'parchment': {'title': parchment.title, 'contents': parchment.contents,},
-          'writerId': writerId,
           'previousParchmentId': parchment.parentParchmentId,
         })
     );
@@ -53,5 +59,21 @@ class HttpService {
     }
     Parchment retrievedParchment = await getParchment(parchment.id);
     return retrievedParchment.continuations;
+  }
+
+  static Future<void> setToken(dynamic token) async {
+    await tokenRetriever.setToken(token);
+  }
+}
+
+class TokenRetriever {
+  getToken() async {
+    final storage = new FlutterSecureStorage();
+    return await storage.read(key: TOKEN);
+  }
+
+  setToken(dynamic token) async {
+    final storage = new FlutterSecureStorage();
+    await storage.write(key: TOKEN, value: token);
   }
 }

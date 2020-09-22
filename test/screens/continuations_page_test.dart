@@ -11,6 +11,7 @@ import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
+import '../mocks/mock_token_retriever.dart';
 import '../utils.dart';
 
 const PARCHMENT_DETAIL_KEY = Key('parchment_detail_key');
@@ -33,6 +34,7 @@ void main() {
     ContinuationsPage continuationsPage = ContinuationsPage(parchment: parchment,);
     widget = getMaterialWidget(continuationsPage);
 
+    HttpService.tokenRetriever = MockTokenRetriever();
     HttpService.client = MockClient((request) async {
       return Response(jsonEncode({'continuations': []}), 200);
     });
