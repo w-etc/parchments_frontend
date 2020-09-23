@@ -4,6 +4,7 @@ import 'package:parchments_flutter/components/validated_input.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 import '../routes.dart';
@@ -31,10 +32,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void _goToRegisterPage() {
+    Navigator.pushNamed(context, ROUTES_REGISTER);
+  }
+
   @override
   Widget build(BuildContext context) {
-    ValidatedInput usernameInput = ValidatedInput(hint: 'Your name', obscureText: false,);
-    ValidatedInput passwordInput = ValidatedInput(hint: 'Password', obscureText: true,);
+    ValidatedInput usernameInput = ValidatedInput(hint: 'Your name', obscureText: false, validator: NoEmptyValidator(),);
+    ValidatedInput passwordInput = ValidatedInput(hint: 'Password', obscureText: true, validator: NoEmptyValidator());
     return Scaffold(
         resizeToAvoidBottomInset : false,
         body: Builder(
@@ -54,7 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => _login(context, usernameInput.text(), passwordInput.text()),
                         child: Text('Sign', style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
                       ),
-                    )
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 15.0),
+                      child: FlatButton(
+                        onPressed: () => _goToRegisterPage(),
+                        child: Text('Register', style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
+                      ),
+                    ),
                   ],
                 ),
               )

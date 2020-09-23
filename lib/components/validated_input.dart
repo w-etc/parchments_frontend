@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/models/validators/abstract_validator.dart';
 
 class ValidatedInput extends StatefulWidget {
   final inputController = TextEditingController();
   final String hint;
   final bool obscureText;
-  ValidatedInput({this.hint, this.obscureText});
+  final Validator validator;
+  ValidatedInput({this.hint, this.obscureText, this.validator});
 
   @override
   _ValidatedInputState createState() => _ValidatedInputState();
@@ -21,7 +23,7 @@ class _ValidatedInputState extends State<ValidatedInput> {
   bool activeFocus = false;
   bool valid = true;
 
-  void _togglePenColor(bool hasFocus,) {
+  void _toggleFocus(bool hasFocus,) {
     setState(() {
       activeFocus = hasFocus;
     });
@@ -34,17 +36,12 @@ class _ValidatedInputState extends State<ValidatedInput> {
     if (!activeFocus && !valid) return ERROR_UNFOCUSED;
   }
 
-  String _validator(value) {
-    if (value.isEmpty) {
-      setState(() {
-        valid = false;
-      });
-      return 'Please write something';
-    }
+  String _validate(value) {
+    String result = widget.validator.validate(value);
     setState(() {
-      valid = true;
+      valid = result == null;
     });
-    return null;
+    return result;
   }
 
   @override
@@ -57,7 +54,7 @@ class _ValidatedInputState extends State<ValidatedInput> {
           Flexible(
             child: Focus(
               child: TextFormField(
-                validator: _validator,
+                validator: _validate,
                 style: TextStyle(fontSize: 18, fontFamily: CINZEL,),
                 decoration: InputDecoration(
                   hintText: widget.hint,
@@ -82,7 +79,7 @@ class _ValidatedInputState extends State<ValidatedInput> {
                 controller: widget.inputController,
                 obscureText: widget.obscureText,
               ),
-              onFocusChange: _togglePenColor,
+              onFocusChange: _toggleFocus,
             ),
           ),
           Container(

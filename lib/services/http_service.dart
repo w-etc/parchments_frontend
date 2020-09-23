@@ -24,6 +24,20 @@ class HttpService {
     }
   }
 
+  static Future<Map<String, dynamic>> register(String username, String password) async {
+    final response = await client.post(
+      '$BACKEND_URL/writer/register',
+      headers: {'Content-type': 'application/json'},
+      body: jsonEncode({'username': username, 'password': password}),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future<Parchment> getParchment(int parchmentId) async {
     final token = await tokenRetriever.getToken();
     final response = await client.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}', headers: {'Authorization': 'Bearer $token'});

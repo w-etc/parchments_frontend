@@ -6,6 +6,7 @@ import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/screens/create_parchment_page.dart';
 import 'package:parchments_flutter/screens/login_page.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
+import 'package:parchments_flutter/screens/register_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -40,6 +41,10 @@ class MyApp extends StatelessWidget {
             final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
               return ContinuationsPage(parchment: parchment,);
+            });
+          case ROUTES_REGISTER:
+            return MaterialPageRoute(builder: (_) {
+              return RegisterPage();
             });
         }
       },
