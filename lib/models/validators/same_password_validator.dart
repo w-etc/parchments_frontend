@@ -7,9 +7,6 @@ class SamePasswordValidator extends Validator {
 
   @override
   String validate(value) {
-    if (value.isEmpty) {
-      return 'Please write something';
-    }
     if (value != inputToCompare.text()) {
       return 'The password doesn\'t match';
     }

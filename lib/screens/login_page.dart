@@ -38,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    ValidatedInput usernameInput = ValidatedInput(hint: 'Your name', obscureText: false, validator: NoEmptyValidator(),);
-    ValidatedInput passwordInput = ValidatedInput(hint: 'Password', obscureText: true, validator: NoEmptyValidator());
+    ValidatedInput usernameInput = ValidatedInput(hint: 'Your name', obscureText: false, validators: [NoEmptyValidator()],);
+    ValidatedInput passwordInput = ValidatedInput(hint: 'Password', obscureText: true, validators: [NoEmptyValidator()]);
     return Scaffold(
         resizeToAvoidBottomInset : false,
         body: Builder(

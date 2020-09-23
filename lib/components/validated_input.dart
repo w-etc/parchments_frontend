@@ -8,8 +8,8 @@ class ValidatedInput extends StatefulWidget {
   final inputController = TextEditingController();
   final String hint;
   final bool obscureText;
-  final Validator validator;
-  ValidatedInput({this.hint, this.obscureText, this.validator});
+  final List<Validator> validators;
+  ValidatedInput({this.hint, this.obscureText, this.validators});
 
   @override
   _ValidatedInputState createState() => _ValidatedInputState();
@@ -37,7 +37,11 @@ class _ValidatedInputState extends State<ValidatedInput> {
   }
 
   String _validate(value) {
-    String result = widget.validator.validate(value);
+    String result;
+    widget.validators.firstWhere((validator) {
+      result = validator.validate(value);
+      return result != null;
+    }, orElse: () => null);
     setState(() {
       valid = result == null;
     });

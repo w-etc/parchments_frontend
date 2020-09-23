@@ -28,9 +28,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Form confirmPasswordForm;
 
   void initState() {
-    usernameInput = ValidatedInput(hint: 'Your name', obscureText: false, validator: NoEmptyValidator(),);
-    passwordInput = ValidatedInput(hint: 'Password', obscureText: true, validator: NoEmptyValidator(),);
-    confirmPasswordInput = ValidatedInput(hint: 'Confirm your password', obscureText: true, validator: SamePasswordValidator(inputToCompare: passwordInput),);
+    usernameInput = ValidatedInput(hint: 'Your name', obscureText: false, validators: [NoEmptyValidator()],);
+    passwordInput = ValidatedInput(hint: 'Password', obscureText: true, validators: [NoEmptyValidator()],);
+    confirmPasswordInput = ValidatedInput(hint: 'Confirm your password', obscureText: true, validators: [NoEmptyValidator(), SamePasswordValidator(inputToCompare: passwordInput)],);
     usernameForm = Form(key: usernameKey, child: usernameInput);
     passwordForm = Form(key: passwordKey, child: passwordInput);
     confirmPasswordForm = Form(key: confirmPasswordKey, child: confirmPasswordInput);
