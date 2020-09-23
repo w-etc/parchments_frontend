@@ -24,6 +24,20 @@ class HttpService {
     }
   }
 
+  static Future<bool> checkValidUsername(String username) async {
+    final response = await client.post(
+      '$BACKEND_URL/writer/check',
+      headers: {'Content-type': 'application/json'},
+      body: jsonEncode({'username': username}),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future<Map<String, dynamic>> register(String username, String password) async {
     final response = await client.post(
       '$BACKEND_URL/writer/register',

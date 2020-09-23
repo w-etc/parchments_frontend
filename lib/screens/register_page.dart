@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/validated_input.dart';
+import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
@@ -36,10 +37,23 @@ class _RegisterPageState extends State<RegisterPage> {
     confirmPasswordForm = Form(key: confirmPasswordKey, child: confirmPasswordInput);
   }
 
-  _nextStep() {
-    final isValidFirstStep = currentStepCount == 0 && usernameKey.currentState.validate();
-    final isValidSecondStep = currentStepCount == 1 && passwordKey.currentState.validate();
-    if (isValidFirstStep || isValidSecondStep) {
+  _checkValidUsername(BuildContext context) async {
+    if (!usernameKey.currentState.validate()) {
+      return;
+    }
+    bool isValid = await HttpService.checkValidUsername(usernameInput.text());
+    if (!isValid) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('That name is taken', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+      return;
+    }
+    Scaffold.of(context).hideCurrentSnackBar();
+    setState(() {
+      currentStepCount++;
+    });
+  }
+
+  _goToConfirmPassword() {
+    if (passwordKey.currentState.validate()) {
       setState(() {
         currentStepCount++;
       });
@@ -58,21 +72,25 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset : false,
-        body: Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30,),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: _getCurrentForm(),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 15.0),
-                child: _getCurrentButton(),
-              ),
-            ],
-          )
-        ),
+        body: Builder(
+          builder: (BuildContext builderContext) {
+            return Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30,),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: _getCurrentForm(),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 15.0),
+                      child: _getCurrentButton(builderContext),
+                    ),
+                  ],
+                )
+            );
+          },
+        )
     );
   }
 
@@ -81,16 +99,20 @@ class _RegisterPageState extends State<RegisterPage> {
     return allForms[currentStepCount];
   }
 
-  Widget _getCurrentButton() {
-    if (currentStepCount < 2) {
-      return FlatButton(
-        onPressed: () => _nextStep(),
-        child: Text('Next', style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
-      );
+  Widget _getCurrentButton(BuildContext context) {
+    dynamic callback = () => _register();
+    String text = 'Done';
+    if (currentStepCount == 0) {
+      callback = () => _checkValidUsername(context);
+      text = 'Next';
+    }
+    if (currentStepCount == 1) {
+      callback = () => _goToConfirmPassword();
+      text = 'Next';
     }
     return FlatButton(
-      onPressed: () => _register(),
-      child: Text('Done', style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
+      onPressed: callback,
+      child: Text(text, style: TextStyle(fontSize: 36, fontFamily: CINZEL, fontWeight: FontWeight.bold,)),
     );
   }
 }
