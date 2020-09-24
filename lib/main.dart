@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
+import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
 import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/screens/create_parchment_page.dart';
-import 'package:parchments_flutter/screens/login_page.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
-import 'package:parchments_flutter/screens/register_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case ROUTES_HOME:
             return MaterialPageRoute(builder: (_) {
-              return LoginPage();
+              return AuthPage();
             });
           case ROUTES_PARCHMENT_DETAIL:
             final Parchment parchment = settings.arguments;
@@ -41,10 +40,6 @@ class MyApp extends StatelessWidget {
             final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
               return ContinuationsPage(parchment: parchment,);
-            });
-          case ROUTES_REGISTER:
-            return MaterialPageRoute(builder: (_) {
-              return RegisterPage();
             });
         }
       },

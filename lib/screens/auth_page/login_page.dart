@@ -7,9 +7,11 @@ import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
-import '../routes.dart';
+import '../../routes.dart';
 
 class LoginPage extends StatefulWidget {
+  final PageController parentController;
+  LoginPage({this.parentController});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -33,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _goToRegisterPage() {
-    Navigator.pushNamed(context, ROUTES_REGISTER);
+    widget.parentController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOutQuart);
   }
 
   @override
