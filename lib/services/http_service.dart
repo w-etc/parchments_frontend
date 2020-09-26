@@ -19,9 +19,10 @@ class HttpService {
     );
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
-    } else {
-      return null;
+    } else if (response.statusCode == 401) {
+      throw 'Invalid username or password';
     }
+    throw 'Something went wrong. Can you try again?';
   }
 
   static Future<bool> checkValidUsername(String username) async {
@@ -30,11 +31,10 @@ class HttpService {
       headers: {'Content-type': 'application/json'},
       body: jsonEncode({'username': username}),
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      return null;
+      throw 'Something went wrong. Can you try again?';
     }
   }
 
@@ -44,12 +44,10 @@ class HttpService {
       headers: {'Content-type': 'application/json'},
       body: jsonEncode({'username': username, 'password': password}),
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
-    } else {
-      return null;
     }
+    throw 'Something went wrong. Can you try again?';
   }
 
   static Future<Parchment> getParchment(int parchmentId) async {

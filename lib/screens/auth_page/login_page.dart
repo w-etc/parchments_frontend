@@ -23,14 +23,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login(BuildContext context, String username, String password) async {
     if (_formKey.currentState.validate()) {
-      final result = await HttpService.login(username, password);
-      if (result == null) {
-        final snackBar = SnackBar(content: Text('Invalid username or password', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
+      try {
+        final result = await HttpService.login(username, password);
+        await HttpService.setToken(result['token']);
+        Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
+      } catch (e) {
+        final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
         Scaffold.of(context).showSnackBar(snackBar);
-        return;
       }
-      await HttpService.setToken(result['token']);
-      Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
     }
   }
 

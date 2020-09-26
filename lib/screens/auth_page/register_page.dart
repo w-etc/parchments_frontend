@@ -38,13 +38,17 @@ class _RegisterPageState extends State<RegisterPage> {
     if (!usernameKey.currentState.validate()) {
       return;
     }
-    bool isValid = await HttpService.checkValidUsername(usernameInput.text());
-    if (!isValid) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('That name is taken', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
-      return;
+    try {
+      bool isValid = await HttpService.checkValidUsername(usernameInput.text());
+      if (!isValid) {
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('That name is taken', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+        return;
+      }
+      Scaffold.of(context).hideCurrentSnackBar();
+      _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOutQuart);
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     }
-    Scaffold.of(context).hideCurrentSnackBar();
-    _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOutQuart);
   }
 
   _goToConfirmPassword() {
@@ -55,9 +59,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _register() async {
     if (confirmPasswordKey.currentState.validate()) {
-      final result = await HttpService.register(usernameInput.text(), passwordInput.text());
-      await HttpService.setToken(result['token']);
-      Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
+      try {
+        final result = await HttpService.register(usernameInput.text(), passwordInput.text());
+        await HttpService.setToken(result['token']);
+        Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
+      } catch (e) {
+        final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
     }
   }
 
