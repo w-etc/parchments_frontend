@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
+import 'package:parchments_flutter/screens/home_page.dart';
 import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
 import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/screens/create_parchment_page.dart';
@@ -23,6 +24,10 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case ROUTES_HOME:
+            return MaterialPageRoute(builder: (_) {
+              return HomePage();
+            });
+          case ROUTES_LOGIN:
             return MaterialPageRoute(builder: (_) {
               return AuthPage();
             });
