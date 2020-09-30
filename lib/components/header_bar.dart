@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 
 class HeaderBar extends StatelessWidget with PreferredSizeWidget {
-  final double appBarHeight = 75.0;
+  final double appBarHeight = 56.0;
   @override
   get preferredSize => Size.fromHeight(appBarHeight);
 
@@ -20,7 +20,7 @@ class HeaderBar extends StatelessWidget with PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 IconButton(
-                  iconSize: 40.0,
+                  iconSize: 30.0,
                   icon: Icon(Icons.account_circle, color: Colors.white,),
                   color: Colors.white,
                 ),
