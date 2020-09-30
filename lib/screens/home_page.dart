@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/header_bar.dart';
+import 'package:parchments_flutter/components/parchments_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -12,6 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HeaderBar(),
+      bottomNavigationBar: ParchmentsNavigationBar(),
     );
   }
 }
