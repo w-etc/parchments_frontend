@@ -5,7 +5,7 @@ import 'package:parchments_flutter/routes.dart';
 class ParchmentsNavigationBar extends StatelessWidget {
 
   void _onTap(BuildContext context, int index) {
-    if (index == 0) {
+    if (index == 1) {
       Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE);
     }
   }
@@ -18,6 +18,11 @@ class ParchmentsNavigationBar extends StatelessWidget {
       backgroundColor: Colors.black,
       onTap: (index) => _onTap(context, index),
       items: [
+        BottomNavigationBarItem(
+          backgroundColor: Colors.white,
+          icon: Icon(Icons.account_circle, color: Colors.white, size: 30.0,),
+          title: Text('Account',),
+        ),
         BottomNavigationBarItem(
           backgroundColor: Colors.white,
           icon: Icon(Icons.add_circle, color: Colors.white, size: 30.0,),
