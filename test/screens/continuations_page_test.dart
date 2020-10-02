@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:parchments_flutter/components/parchment_card.dart';
+import 'package:parchments_flutter/components/parchment_card/parchment_card.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';

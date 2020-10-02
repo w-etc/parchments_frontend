@@ -90,6 +90,19 @@ class HttpService {
   static Future<void> setToken(dynamic token) async {
     await tokenRetriever.setToken(token);
   }
+
+  static Future<List<Parchment>> getCoreParchments() async {
+    final response = await client.get(
+      '$BACKEND_URL/parchment/core',
+    );
+
+    if (response.statusCode == 200) {
+      final parchments = json.decode(response.body) as List;
+      return parchments?.map((innerParchment) => Parchment.fromJson(innerParchment))?.toList();
+    } else {
+      return [];
+    }
+  }
 }
 
 class TokenRetriever {
