@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/routes.dart';
 
 class ParchmentsNavigationBar extends StatelessWidget {
@@ -33,7 +34,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Icon(Icons.lens, color: Colors.white, size: 30.0,),
-              Text('?'),
+              Text('?', style: TextStyle(fontFamily: CINZEL, fontWeight: FontWeight.bold),),
             ],
           ),
           title: Text('Random'),
