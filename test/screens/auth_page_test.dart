@@ -5,21 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:parchments_flutter/components/validated_input.dart';
-import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 import '../mocks/mock_token_retriever.dart';
 
-const PARCHMENT_DETAIL_KEY = Key('parchment_detail_key');
+const HOME_KEY = Key('home_key');
 
 Widget getMaterialWidget(Widget child) {
   return MaterialApp(
-    initialRoute: ROUTES_HOME,
+    initialRoute: ROUTES_AUTH,
     routes: {
-      ROUTES_HOME: (context) => child,
-      ROUTES_PARCHMENT_DETAIL: (context) => Scaffold(key: PARCHMENT_DETAIL_KEY,),
+      ROUTES_AUTH: (context) => child,
+      ROUTES_HOME: (context) => Scaffold(key: HOME_KEY,),
     },
   );
 }
@@ -95,7 +94,7 @@ void main() {
       expect(find.widgetWithText(SnackBar, errorSnackbarText), findsOneWidget);
     });
 
-    testWidgets('a successful login will take the user to ROUTES_PARCHMENT_DETAIL', (WidgetTester tester) async {
+    testWidgets('a successful login will take the user to ROUTES_HOME', (WidgetTester tester) async {
       HttpService.client = MockClient((request) async {
         return Response(jsonEncode({}), 200);
       });
@@ -107,7 +106,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AuthPage), findsNothing);
-      expect(find.byKey(PARCHMENT_DETAIL_KEY), findsOneWidget);
+      expect(find.byKey(HOME_KEY), findsOneWidget);
     });
   });
 
@@ -214,7 +213,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AuthPage), findsNothing);
-      expect(find.byKey(PARCHMENT_DETAIL_KEY), findsOneWidget);
+      expect(find.byKey(HOME_KEY), findsOneWidget);
     });
   });
 }

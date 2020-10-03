@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Lucas/Parchments/parchments_frontend/lib/screens/auth_page/login_page.dart';
-import 'file:///C:/Users/Lucas/Parchments/parchments_frontend/lib/screens/auth_page/register_page.dart';
+import 'login_page.dart';
+import 'register_page.dart';
 
 class AuthPage extends StatefulWidget {
 

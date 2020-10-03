@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/validated_input.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
-import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
@@ -26,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       try {
         final result = await HttpService.login(username, password);
         await HttpService.setToken(result['token']);
-        Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: Parchment());
+        Navigator.pushNamed(context, ROUTES_HOME);
       } catch (e) {
         final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
         Scaffold.of(context).showSnackBar(snackBar);

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) {
               return HomePage();
             });
-          case ROUTES_LOGIN:
+          case ROUTES_AUTH:
             return MaterialPageRoute(builder: (_) {
               return AuthPage();
             });

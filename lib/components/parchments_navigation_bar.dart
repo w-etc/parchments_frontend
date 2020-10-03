@@ -6,8 +6,24 @@ import 'package:parchments_flutter/routes.dart';
 class ParchmentsNavigationBar extends StatelessWidget {
 
   void _onTap(BuildContext context, int index) {
-    if (index == 1) {
-      Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE);
+    switch(index) {
+      case 0: {
+        Navigator.pushNamed(context, ROUTES_AUTH);
+      }
+      break;
+
+      case 1: {
+        Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE);
+      }
+      break;
+
+      case 2: {
+
+      }
+      break;
+
+      default: { print("Invalid choice"); }
+      break;
     }
   }
 
