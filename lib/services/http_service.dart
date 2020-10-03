@@ -91,6 +91,10 @@ class HttpService {
     await tokenRetriever.setToken(token);
   }
 
+  static Future<String> getToken() async {
+    return await tokenRetriever.getToken();
+  }
+
   static Future<List<Parchment>> getCoreParchments() async {
     final response = await client.get(
       '$BACKEND_URL/parchment/core',
