@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/routes.dart';
+import 'package:parchments_flutter/util/navigator_util.dart';
 
 class ParchmentsNavigationBar extends StatelessWidget {
 
-  void _onTap(BuildContext context, int index) {
+  Future<void> _onTap(BuildContext context, int index) async {
     switch(index) {
       case 0: {
         Navigator.pushNamed(context, ROUTES_AUTH);
@@ -13,7 +14,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
       break;
 
       case 1: {
-        Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE);
+        await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, null);
       }
       break;
 

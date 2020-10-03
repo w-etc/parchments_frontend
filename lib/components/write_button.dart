@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/util/navigator_util.dart';
 import '../routes.dart';
 
 class WriteButton extends StatelessWidget {
@@ -10,14 +11,14 @@ class WriteButton extends StatelessWidget {
     this.parchment
   }) : super(key: key);
 
-  void _write(BuildContext context) {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_CREATE, arguments: parchment);
+  Future<void> _write(BuildContext context) async {
+    await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, parchment);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _write(context),
+      onTap: () async => await _write(context),
       child: Image(image: AssetImage('assets/pen_white.png'), width: 60,),
     );
   }

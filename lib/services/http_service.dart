@@ -106,12 +106,12 @@ class HttpService {
 }
 
 class TokenRetriever {
-  getToken() async {
+  Future<String> getToken() async {
     final storage = new FlutterSecureStorage();
     return await storage.read(key: TOKEN);
   }
 
-  setToken(dynamic token) async {
+  Future<void> setToken(dynamic token) async {
     final storage = new FlutterSecureStorage();
     await storage.write(key: TOKEN, value: token);
   }
