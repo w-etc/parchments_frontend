@@ -55,8 +55,19 @@ class HttpService {
   }
 
   static Future<Parchment> getParchment(int parchmentId) async {
-    final token = await tokenRetriever.getToken();
-    final response = await client.get('$BACKEND_URL/parchment/${parchmentId != null ? parchmentId : 1}', headers: {'Authorization': 'Bearer $token'});
+    final response = await client.get('$BACKEND_URL/parchment/$parchmentId');
+    await Future.delayed(Duration(seconds: 2));
+
+    if (response.statusCode == 200) {
+      return Parchment.fromJson(json.decode(response.body));
+    } else {
+      return Parchment(contents: 'It seems we couldn\'t get this Parchment');
+    }
+  }
+
+  static Future<Parchment> getRandomCoreParchment() async {
+    final response = await client.get('$BACKEND_URL/parchment/core/random');
+    await Future.delayed(Duration(seconds: 2));
 
     if (response.statusCode == 200) {
       return Parchment.fromJson(json.decode(response.body));

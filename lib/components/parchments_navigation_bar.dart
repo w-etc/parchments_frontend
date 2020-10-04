@@ -19,7 +19,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
       break;
 
       case 2: {
-
+        Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL);
       }
       break;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/components/loading_overlay.dart';
 import 'package:parchments_flutter/components/painters/diamond_painter.dart';
 import 'package:parchments_flutter/components/read_continuations_button.dart';
 import 'package:parchments_flutter/components/write_button.dart';
@@ -21,11 +22,20 @@ class ParchmentPage extends StatefulWidget {
 
 class _ParchmentPageState extends State<ParchmentPage> {
   Future<Parchment> futureParchment;
+  bool _isRandomParchment;
+  String loadingText;
 
   @override
   void initState() {
     super.initState();
-    futureParchment = HttpService.getParchment(widget.parchment.id);
+    _isRandomParchment = widget.parchment == null;
+    if (_isRandomParchment) {
+      loadingText = 'Bringing a random Parchment';
+      futureParchment = HttpService.getRandomCoreParchment();
+    } else {
+      loadingText = 'Looking for the Parchment';
+      futureParchment = HttpService.getParchment(widget.parchment.id);
+    }
   }
 
   Future<bool> _onBack(Parchment parchment) async {
@@ -39,12 +49,13 @@ class _ParchmentPageState extends State<ParchmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget child = LoadingOverlay(text: loadingText);
 
     return FutureBuilder<Parchment>(
         future: futureParchment,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return WillPopScope(
+            child = WillPopScope(
               onWillPop: () => _onBack(snapshot.data),
               child: Scaffold(
                 body: Center(
@@ -87,9 +98,11 @@ class _ParchmentPageState extends State<ParchmentPage> {
                 ),
               ),
             );
-          } else {
-            return Container();
           }
+          return AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: child,
+          );
         });
   }
 }
