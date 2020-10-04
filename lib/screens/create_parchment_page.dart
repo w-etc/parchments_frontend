@@ -25,9 +25,11 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentTitleController = TextEditingController();
   final parchmentBodyController = TextEditingController();
 
-  Future<void> _save() async {
-    Parchment createdParchment = await HttpService.createParchment(_currentParchment());
-    Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchment);
+  Future<void> _save(BuildContext context) async {
+    Parchment createdParchment = await HttpService.createParchment(context, _currentParchment());
+    if (createdParchment != null) {
+      Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchment);
+    }
   }
 
   Parchment _currentParchment() {
@@ -38,14 +40,18 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FlatButton(
-              onPressed: _save,
-              child: Text('Save', textAlign: TextAlign.end, style: TextStyle(fontFamily: CINZEL, color: Colors.white, fontSize: 20,),),
-            )
-          ],
+        title: Builder(
+          builder: (BuildContext buildContext) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FlatButton(
+                  onPressed: () => _save(buildContext),
+                  child: Text('Save', textAlign: TextAlign.end, style: TextStyle(fontFamily: CINZEL, color: Colors.white, fontSize: 20,),),
+                )
+              ],
+            );
+          },
         ),
       ),
       body: Column(

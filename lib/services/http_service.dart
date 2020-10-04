@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client;
+import 'package:parchments_flutter/constants/colors.dart';
+import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/util.dart';
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
@@ -61,7 +65,7 @@ class HttpService {
     }
   }
 
-  static Future<Parchment> createParchment(Parchment parchment) async {
+  static Future<Parchment> createParchment(BuildContext context, Parchment parchment) async {
     final token = await tokenRetriever.getToken();
     final response = await client.post(
         '$BACKEND_URL/parchment',
@@ -72,11 +76,13 @@ class HttpService {
         })
     );
     if (response.statusCode == 200) {
-      print('Success!');
+      return Parchment.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 401) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('You must be logged in to create a new Parchment', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     } else {
-      print('Failed');
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Something went wrong. Please try again.', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     }
-    return Parchment.fromJson(json.decode(response.body));
+    return null;
   }
 
   static Future<List<Parchment>> getContinuations(Parchment parchment) async {
