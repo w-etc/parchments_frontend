@@ -43,7 +43,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           backgroundColor: Colors.white,
-          icon: Icon(Icons.add_circle, color: Colors.white, size: 30.0,),
+          icon: Image(image: AssetImage('assets/pen_circle_white.png'), width: 30,),
           title: Text('Write',),
         ),
         BottomNavigationBarItem(
@@ -51,7 +51,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Icon(Icons.lens, color: Colors.white, size: 30.0,),
-              Text('?', style: TextStyle(fontFamily: CINZEL, fontWeight: FontWeight.bold),),
+              Text('?', style: TextStyle(fontFamily: CINZEL, fontWeight: FontWeight.bold, fontSize: 20.0),),
             ],
           ),
           title: Text('Random'),

@@ -19,7 +19,7 @@ class WriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async => await _write(context),
-      child: Image(image: AssetImage('assets/pen_white.png'), width: 60,),
+      child: Image(image: AssetImage('assets/pen_circle_black.png'), width: 60,),
     );
   }
 }
