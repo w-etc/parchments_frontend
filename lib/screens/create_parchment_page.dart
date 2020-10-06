@@ -33,7 +33,11 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   }
 
   Parchment _currentParchment() {
-    return Parchment(parentParchmentId: widget.parentParchment.id, title: parchmentTitleController.text, contents: parchmentBodyController.text);
+    return Parchment(parentParchmentId: _parentParchmentId(), title: parchmentTitleController.text, contents: parchmentBodyController.text);
+  }
+
+  int _parentParchmentId() {
+    return widget.parentParchment != null ? widget.parentParchment.id : null;
   }
 
   @override
