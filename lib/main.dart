@@ -8,6 +8,7 @@ import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
 import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/screens/create_parchment_page.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
+import 'package:parchments_flutter/screens/profile_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
           case ROUTES_HOME:
             return MaterialPageRoute(builder: (_) {
               return HomePage();
+            });
+          case ROUTES_PROFILE:
+            return MaterialPageRoute(builder: (_) {
+              return ProfilePage();
             });
           case ROUTES_AUTH:
             return MaterialPageRoute(builder: (_) {

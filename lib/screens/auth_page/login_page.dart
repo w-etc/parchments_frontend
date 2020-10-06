@@ -5,6 +5,7 @@ import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
 import 'package:parchments_flutter/services/http_service.dart';
+import 'package:parchments_flutter/services/storage_provider.dart';
 
 import '../../routes.dart';
 
@@ -24,7 +25,9 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState.validate()) {
       try {
         final result = await HttpService.login(username, password);
-        await HttpService.setToken(result['token']);
+        final storageProvider = StorageProvider();
+        await storageProvider.setToken(result['token']);
+        await storageProvider.setUsername(username);
         Navigator.pushNamed(context, ROUTES_HOME);
       } catch (e) {
         final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);

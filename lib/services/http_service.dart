@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client;
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
-import 'package:parchments_flutter/constants/util.dart';
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:parchments_flutter/services/storage_provider.dart';
 
 class HttpService {
 
   static Client client = Client();
-  static TokenRetriever tokenRetriever = TokenRetriever();
+  static StorageProvider storageRetriever = StorageProvider();
 
   static Future<Map<String, dynamic>> login(String username, String password) async {
     final response = await client.post(
@@ -77,7 +76,7 @@ class HttpService {
   }
 
   static Future<Parchment> createParchment(BuildContext context, Parchment parchment) async {
-    final token = await tokenRetriever.getToken();
+    final token = await storageRetriever.getToken();
     final response = await client.post(
         '$BACKEND_URL/parchment',
         headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},
@@ -104,12 +103,8 @@ class HttpService {
     return retrievedParchment.continuations;
   }
 
-  static Future<void> setToken(dynamic token) async {
-    await tokenRetriever.setToken(token);
-  }
-
   static Future<String> getToken() async {
-    return await tokenRetriever.getToken();
+    return await storageRetriever.getToken();
   }
 
   static Future<List<Parchment>> getCoreParchments() async {
@@ -123,17 +118,5 @@ class HttpService {
     } else {
       return [];
     }
-  }
-}
-
-class TokenRetriever {
-  Future<String> getToken() async {
-    final storage = new FlutterSecureStorage();
-    return await storage.read(key: TOKEN);
-  }
-
-  Future<void> setToken(dynamic token) async {
-    final storage = new FlutterSecureStorage();
-    await storage.write(key: TOKEN, value: token);
   }
 }

@@ -8,8 +8,9 @@ import 'package:parchments_flutter/components/validated_input.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
+import 'package:parchments_flutter/services/storage_provider.dart';
 
-import '../mocks/mock_token_retriever.dart';
+import '../mocks/mock_secure_storage.dart';
 
 const HOME_KEY = Key('home_key');
 
@@ -42,7 +43,7 @@ void main() {
   String errorSnackbarText = 'Something went wrong. Can you try again?';
 
   setUp(() async {
-    HttpService.tokenRetriever = MockTokenRetriever();
+    StorageProvider.storage = MockSecureStorage();
     widget = getMaterialWidget(AuthPage());
   });
 

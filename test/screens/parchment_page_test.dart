@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:mockito/mockito.dart';
-import 'package:parchments_flutter/components/read_continuations_button.dart';
-import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
-import '../mocks/mock_token_retriever.dart';
+import 'package:parchments_flutter/services/storage_provider.dart';
+import '../mocks/mock_secure_storage.dart';
 import '../utils.dart';
 
 
@@ -39,7 +37,7 @@ void main() {
   Parchment parchment = Parchment(id: parchmentId);
 
   setUp(() async {
-    HttpService.tokenRetriever = MockTokenRetriever();
+    StorageProvider.storage = MockSecureStorage();
     HttpService.client = MockClient((request) async {
       parchmentRequest = request;
       return Response(jsonEncode({'title': parchmentTitle, 'contents': parchmentContents}), 200);
