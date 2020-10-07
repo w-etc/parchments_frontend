@@ -99,7 +99,14 @@ class HttpService {
     if (parchment.continuations.length > 0) {
       return parchment.continuations;
     }
-    Parchment retrievedParchment = await getParchment(parchment.id);
+    Parchment retrievedParchment;
+    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}');
+
+    if (response.statusCode == 200) {
+      retrievedParchment = Parchment.fromJson(json.decode(response.body));
+    } else {
+      retrievedParchment = Parchment(contents: 'It seems we couldn\'t get this Parchment');
+    }
     return retrievedParchment.continuations;
   }
 
