@@ -10,6 +10,7 @@ import 'package:parchments_flutter/screens/continuations_page.dart';
 import 'package:parchments_flutter/screens/create_parchment_page.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
 import 'package:parchments_flutter/screens/profile_page.dart';
+import 'package:parchments_flutter/screens/random_parchment_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -43,6 +44,10 @@ class MyApp extends StatelessWidget {
             final Parchment parchment = settings.arguments;
             return MaterialPageRoute(builder: (_) {
               return ParchmentPage(parchment: parchment);
+            });
+          case ROUTES_PARCHMENT_DETAIL_RANDOM:
+            return MaterialPageRoute(builder: (_) {
+              return RandomParchmentPage();
             });
           case ROUTES_PARCHMENT_CREATE:
             final Parchment parchment = settings.arguments;

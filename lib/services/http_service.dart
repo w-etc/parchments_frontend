@@ -55,7 +55,6 @@ class HttpService {
 
   static Future<Parchment> getParchment(int parchmentId) async {
     final response = await client.get('$BACKEND_URL/parchment/$parchmentId');
-    await Future.delayed(Duration(seconds: 2));
 
     if (response.statusCode == 200) {
       return Parchment.fromJson(json.decode(response.body));
