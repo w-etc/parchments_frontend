@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/models/redirection.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 
 class AuthPage extends StatefulWidget {
+  final Redirection redirection;
+
+  const AuthPage({
+    Key key,
+    this.redirection,
+  }): super(key: key);
 
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -21,8 +28,8 @@ class _AuthPageState extends State<AuthPage> {
         scrollDirection: Axis.vertical,
         physics: NeverScrollableScrollPhysics(),
         children: [
-          LoginPage(parentController: _pageController),
-          RegisterPage(parentController: _pageController,),
+          LoginPage(parentController: _pageController, redirection: widget.redirection),
+          RegisterPage(parentController: _pageController, redirection: widget.redirection),
         ],
       ),
     );

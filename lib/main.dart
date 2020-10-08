@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/models/redirection.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/home_page.dart';
 import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
             });
           case ROUTES_AUTH:
             return MaterialPageRoute(builder: (_) {
-              return AuthPage();
+              final Redirection redirection = settings.arguments;
+              return AuthPage(redirection: redirection);
             });
           case ROUTES_PARCHMENT_DETAIL:
             final Parchment parchment = settings.arguments;

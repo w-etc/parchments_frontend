@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/validated_input.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/models/redirection.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
 import 'package:parchments_flutter/models/validators/same_password_validator.dart';
 import 'package:parchments_flutter/services/http_service.dart';
@@ -12,7 +13,9 @@ import '../../routes.dart';
 
 class RegisterPage extends StatefulWidget {
   final PageController parentController;
-  RegisterPage({this.parentController});
+  final Redirection redirection;
+
+  RegisterPage({this.parentController, this.redirection});
 
 
   @override
@@ -64,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
         final storageProvider = StorageProvider();
         await storageProvider.setToken(result['token']);
         await storageProvider.setUsername(usernameInput.text());
-        Navigator.pushNamed(context, ROUTES_HOME);
+        Navigator.pushNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
       } catch (e) {
         final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
         Scaffold.of(context).showSnackBar(snackBar);

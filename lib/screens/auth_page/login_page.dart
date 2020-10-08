@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/validated_input.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/models/redirection.dart';
 import 'package:parchments_flutter/models/validators/no_empty_validator.dart';
+import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 
-import '../../routes.dart';
-
 class LoginPage extends StatefulWidget {
   final PageController parentController;
-  LoginPage({this.parentController});
+  final Redirection redirection;
+
+  LoginPage({this.parentController, this.redirection});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -28,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
         final storageProvider = StorageProvider();
         await storageProvider.setToken(result['token']);
         await storageProvider.setUsername(username);
-        Navigator.pushNamed(context, ROUTES_HOME);
+        Navigator.pushNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
       } catch (e) {
         final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
         Scaffold.of(context).showSnackBar(snackBar);
