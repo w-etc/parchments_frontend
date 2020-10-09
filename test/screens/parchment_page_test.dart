@@ -9,7 +9,6 @@ import 'package:parchments_flutter/screens/parchment_page.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 import '../mocks/mock_secure_storage.dart';
-import '../utils.dart';
 
 
 const LOGIN_KEY = Key('login_key');
@@ -89,29 +88,4 @@ void main() {
   //   expect(find.byType(ParchmentPage), findsNothing);
   //   expect(find.byKey(PARCHMENT_CONTINUATIONS_KEY), findsOneWidget);
   // });
-
-  testWidgets('if the requested parchment has no parentParchmentId, the back button takes the user to the login page', (WidgetTester tester) async {
-    await tester.pumpWidget(widget);
-    await tester.pumpAndSettle();
-
-    await simulateBackButton(tester);
-
-    expect(find.byType(ParchmentPage), findsNothing);
-    expect(find.byKey(LOGIN_KEY), findsOneWidget);
-  });
-
-  testWidgets('if the requested parchment has parentParchmentId, the back button takes the user to the parchment continuations page', (WidgetTester tester) async {
-    HttpService.client = MockClient((request) async {
-      parchmentRequest = request;
-      return Response(jsonEncode({'title': parchmentTitle, 'contents': parchmentContents, 'parentParchment': {'id': 3}}), 200);
-    });
-
-    await tester.pumpWidget(widget);
-    await tester.pumpAndSettle();
-
-    await simulateBackButton(tester);
-
-    expect(find.byType(ParchmentPage), findsNothing);
-    expect(find.byKey(PARCHMENT_CONTINUATIONS_KEY), findsOneWidget);
-  });
 }
