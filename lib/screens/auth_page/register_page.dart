@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
         final storageProvider = StorageProvider();
         await storageProvider.setToken(result['token']);
         await storageProvider.setUsername(usernameInput.text());
-        Navigator.pushNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
+        Navigator.pushReplacementNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
       } catch (e) {
         final snackBar = SnackBar(content: Text(e, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,);
         Scaffold.of(context).showSnackBar(snackBar);
