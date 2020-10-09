@@ -31,11 +31,15 @@ class _SearchBarState extends State<SearchBar> {
       break;
 
       case 1: {
+        FocusManager.instance.primaryFocus.unfocus();
+        Scaffold.of(context).hideCurrentSnackBar();
         Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: parchments[0]);
       }
       break;
 
       default: {
+        FocusManager.instance.primaryFocus.unfocus();
+        Scaffold.of(context).hideCurrentSnackBar();
         Navigator.pushNamed(context, ROUTES_SEARCH_RESULTS, arguments: parchments);
       }
       break;
