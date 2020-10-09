@@ -11,6 +11,7 @@ class SearchResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+          padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
           children: [
             ParchmentCardList(parchments: parchments,)
           ]

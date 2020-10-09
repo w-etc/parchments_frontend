@@ -72,7 +72,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
                 snapshot.data.length > 0
                   ? RefreshIndicator(
                     child: ListView(
-                        padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
+                        padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
                         children: [
                           ParchmentCardList(parchments: snapshot.data),
                         ],

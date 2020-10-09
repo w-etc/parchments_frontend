@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       bottomNavigationBar: ParchmentsNavigationBar(),
       body: ListView(
-        padding: EdgeInsets.only(left: 10, right: 10,),
+        padding: EdgeInsets.only(left: 30, right: 30,),
         children: [
           SearchBar(),
           FutureBuilder<List<Parchment>>(
