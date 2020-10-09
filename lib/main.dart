@@ -11,6 +11,7 @@ import 'package:parchments_flutter/screens/create_parchment_page.dart';
 import 'package:parchments_flutter/screens/parchment_page.dart';
 import 'package:parchments_flutter/screens/profile_page.dart';
 import 'package:parchments_flutter/screens/random_parchment_page.dart';
+import 'package:parchments_flutter/screens/search_results_page.dart';
 
 Future main() async {
   await DotEnv().load('.env');
@@ -30,6 +31,11 @@ class MyApp extends StatelessWidget {
           case ROUTES_HOME:
             return MaterialPageRoute(builder: (_) {
               return HomePage();
+            });
+          case ROUTES_SEARCH_RESULTS:
+            return MaterialPageRoute(builder: (_) {
+              final List<Parchment> parchments = settings.arguments;
+              return SearchResultsPage(parchments: parchments,);
             });
           case ROUTES_PROFILE:
             return MaterialPageRoute(builder: (_) {

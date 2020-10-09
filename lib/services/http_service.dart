@@ -125,4 +125,15 @@ class HttpService {
       return [];
     }
   }
+
+  static Future<List<Parchment>> searchParchmentsByTitle(String title) async {
+    final response = await client.get('$BACKEND_URL/parchment/title/$title');
+
+    if (response.statusCode == 200) {
+      final parchments = json.decode(response.body) as List;
+      return parchments?.map((innerParchment) => Parchment.fromJson(innerParchment))?.toList();
+    } else {
+      return null;
+    }
+  }
 }
