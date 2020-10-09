@@ -74,7 +74,9 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
                   snapshot.data.length > 0
                     ? ListView(
                         padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
-                        children: separatedParchmentCards(snapshot.data)
+                        children: [
+                          ParchmentCardList(parchments: snapshot.data),
+                        ],
                       )
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,

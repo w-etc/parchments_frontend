@@ -35,7 +35,9 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasData) {
                 if (snapshot.data.length > 0) {
                   return Column(
-                      children: separatedParchmentCards(snapshot.data)
+                      children: [
+                        ParchmentCardList(parchments: snapshot.data),
+                      ],
                   );
                 }
                 return Padding(
