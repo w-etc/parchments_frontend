@@ -9,12 +9,12 @@ class ParchmentsNavigationBar extends StatelessWidget {
   Future<void> _onTap(BuildContext context, int index) async {
     switch(index) {
       case 0: {
-        await takeAuthorizedUserTo(context, ROUTES_PROFILE, null);
+        await takeAuthorizedUserTo(context, ROUTES_PROFILE, null, false);
       }
       break;
 
       case 1: {
-        await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, null);
+        await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, null, false);
       }
       break;
 
