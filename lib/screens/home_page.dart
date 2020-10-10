@@ -21,32 +21,43 @@ class _HomePageState extends State<HomePage> {
     coreParchments = HttpService.getCoreParchments();
   }
 
+  Future<void> _refresh() async {
+    setState(() {
+      coreParchments = HttpService.getCoreParchments();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: ParchmentsNavigationBar(),
-      body: ListView(
-        padding: EdgeInsets.only(left: 10, right: 10,),
-        children: [
-          SearchBar(),
-          FutureBuilder<List<Parchment>>(
-            future: coreParchments,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.length > 0) {
-                  return Column(
-                      children: separatedParchmentCards(snapshot.data)
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ListView(
+          padding: EdgeInsets.only(left: 30, right: 30,),
+          children: [
+            SearchBar(),
+            FutureBuilder<List<Parchment>>(
+              future: coreParchments,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.length > 0) {
+                    return Column(
+                        children: [
+                          ParchmentCardList(parchments: snapshot.data),
+                        ],
+                    );
+                  }
+                  return Padding(
+                    padding: EdgeInsets.only(top: 200, left: 30, right: 30),
+                    child: Text('We\'re having trouble bringing the latest Parchments. Please try again later.', style: TextStyle(fontFamily: NOTO_SERIF, fontSize: 16.0), textAlign: TextAlign.center,)
                   );
                 }
-                return Padding(
-                  padding: EdgeInsets.only(top: 200, left: 30, right: 30),
-                  child: Text('We\'re having trouble bringing the latest Parchments. Please try again later.', style: TextStyle(fontFamily: NOTO_SERIF, fontSize: 16.0), textAlign: TextAlign.center,)
-                );
-              }
-              return Container();
-            },
-          )
-        ],
+                return Container();
+              },
+            )
+          ],
+        ),
       ),
     );
   }

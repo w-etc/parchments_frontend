@@ -3,7 +3,6 @@ import 'package:parchments_flutter/components/parchment_card/parchment_card_list
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class ContinuationsPage extends StatefulWidget {
@@ -54,9 +53,10 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
     super.dispose();
   }
 
-  Future<bool> _onBack() async {
-    Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: widget.parchment);
-    return true;
+  Future<void> _refresh() async {
+    setState(() {
+      futureParchments = HttpService.getContinuations(Parchment(id: widget.parchment.id, continuations: []));
+    });
   }
 
   @override
@@ -65,42 +65,44 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
         future: futureParchments,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return WillPopScope(
-              onWillPop: _onBack,
-              child: Scaffold(
-                body: Container(
-                  alignment: Alignment.center,
-                  child:
-                  snapshot.data.length > 0
-                    ? ListView(
-                        padding: EdgeInsets.only(top: 50,left: 30, right: 30,),
-                        children: separatedParchmentCards(snapshot.data)
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            return Scaffold(
+              body: Container(
+                alignment: Alignment.center,
+                child:
+                snapshot.data.length > 0
+                  ? RefreshIndicator(
+                    child: ListView(
+                        padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
                         children: [
-                          FadeTransition(
-                            opacity: _firstAnimation,
-                            child: Container(
-                              child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                            ),
-                          ),
-                          FadeTransition(
-                            opacity: _secondAnimation,
-                            child: Container(
-                              padding: EdgeInsets.only(top: 50, bottom: 50,),
-                              child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                            ),
-                          ),
-                          FadeTransition(
-                            opacity: _thirdAnimation,
-                            child: Container(
-                              child: WriteButton(parchment: widget.parchment,),
-                            ),
-                          ),
+                          ParchmentCardList(parchments: snapshot.data),
                         ],
                     ),
-                ),
+                    onRefresh: _refresh,
+                  )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FadeTransition(
+                          opacity: _firstAnimation,
+                          child: Container(
+                            child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                          ),
+                        ),
+                        FadeTransition(
+                          opacity: _secondAnimation,
+                          child: Container(
+                            padding: EdgeInsets.only(top: 50, bottom: 50,),
+                            child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                          ),
+                        ),
+                        FadeTransition(
+                          opacity: _thirdAnimation,
+                          child: Container(
+                            child: WriteButton(parchment: widget.parchment, replaceRoute: true),
+                          ),
+                        ),
+                      ],
+                  ),
               ),
             );
           } else {

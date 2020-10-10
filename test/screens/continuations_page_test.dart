@@ -13,7 +13,6 @@ import 'package:parchments_flutter/services/http_service.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 
 import '../mocks/mock_secure_storage.dart';
-import '../utils.dart';
 
 const PARCHMENT_DETAIL_KEY = Key('parchment_detail_key');
 
@@ -76,15 +75,5 @@ void main() {
 
       expect(find.byType(ParchmentCard), findsNWidgets(1));
     });
-  });
-
-  testWidgets('back button takes the user to ROUTES_PARCHMENT_DETAIL', (WidgetTester tester) async {
-    await tester.pumpWidget(widget);
-    await tester.pumpAndSettle();
-
-    await simulateBackButton(tester);
-
-    expect(find.byType(ContinuationsPage), findsNothing);
-    expect(find.byKey(PARCHMENT_DETAIL_KEY), findsOneWidget);
   });
 }

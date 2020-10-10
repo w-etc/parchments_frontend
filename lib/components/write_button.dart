@@ -5,14 +5,16 @@ import '../routes.dart';
 
 class WriteButton extends StatelessWidget {
   final Parchment parchment;
+  bool replaceRoute = false;
 
   WriteButton({
     Key key,
-    this.parchment
+    this.parchment,
+    this.replaceRoute,
   }) : super(key: key);
 
   Future<void> _write(BuildContext context) async {
-    await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, parchment);
+    await takeAuthorizedUserTo(context, ROUTES_PARCHMENT_CREATE, parchment, replaceRoute);
   }
 
   @override
