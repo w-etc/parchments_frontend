@@ -2,8 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DiamondPainter extends CustomPainter {
+  Path _path;
   double length;
-  DiamondPainter({this.length});
+  DiamondPainter({this.length}) {
+    _path = Path()
+      ..moveTo(0, -length/2)
+      ..lineTo(length/2, 0)
+      ..lineTo(0, length/2)
+      ..lineTo(-length/2, 0);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -12,12 +19,7 @@ class DiamondPainter extends CustomPainter {
       ..strokeWidth = 10
       ..style = PaintingStyle.fill;
 
-    Path path = Path()
-    ..moveTo(0, -length/2)
-    ..lineTo(length/2, 0)
-    ..lineTo(0, length/2)
-    ..lineTo(-length/2, 0);
-    canvas.drawPath(path, paint);
+    canvas.drawPath(_path, paint);
   }
 
   @override
@@ -25,4 +27,8 @@ class DiamondPainter extends CustomPainter {
     return false;
   }
 
+  @override
+  bool hitTest(Offset position) {
+    return _path.contains(position);
+  }
 }

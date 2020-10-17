@@ -4,6 +4,10 @@ import 'package:parchments_flutter/constants/util.dart';
 class StorageProvider {
   static FlutterSecureStorage storage = new FlutterSecureStorage();
 
+  Future<bool> hasToken() async {
+    return await this.getToken() != null;
+  }
+
   Future<String> getToken() async {
     return await storage.read(key: TOKEN);
   }

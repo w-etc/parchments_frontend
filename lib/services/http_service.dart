@@ -6,6 +6,7 @@ import 'package:http/http.dart' show Client;
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/urls.dart';
+import 'package:parchments_flutter/models/breadcrumb.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 
@@ -57,7 +58,11 @@ class HttpService {
     final response = await client.get('$BACKEND_URL/parchment/$parchmentId');
 
     if (response.statusCode == 200) {
-      return Parchment.fromJson(json.decode(response.body));
+      final parsedJson = json.decode(response.body);
+      final breadcrumbs = ((parsedJson['breadcrumbs']?? []) as List).map((innerBreadcrumb) => Breadcrumb.fromJson(innerBreadcrumb)).toList();
+      final parchment = Parchment.fromJson(parsedJson['parchment']);
+      parchment.breadcrumbs = breadcrumbs;
+      return parchment;
     } else {
       return Parchment(contents: 'It seems we couldn\'t get this Parchment');
     }
@@ -102,7 +107,7 @@ class HttpService {
     final response = await client.get('$BACKEND_URL/parchment/${parchment.id}');
 
     if (response.statusCode == 200) {
-      retrievedParchment = Parchment.fromJson(json.decode(response.body));
+      retrievedParchment = Parchment.fromJson(json.decode(response.body)['parchment']);
     } else {
       retrievedParchment = Parchment(contents: 'It seems we couldn\'t get this Parchment');
     }

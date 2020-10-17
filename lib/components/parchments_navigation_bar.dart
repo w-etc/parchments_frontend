@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/util/navigator_util.dart';
@@ -23,7 +24,9 @@ class ParchmentsNavigationBar extends StatelessWidget {
       }
       break;
 
-      default: { print("Invalid choice"); }
+      default: {
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Oops! The button doesn\'t work. Please try again', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+      }
       break;
     }
   }
