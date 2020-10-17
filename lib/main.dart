@@ -29,40 +29,40 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case ROUTES_HOME:
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return HomePage();
             });
           case ROUTES_SEARCH_RESULTS:
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               final List<Parchment> parchments = settings.arguments;
               return SearchResultsPage(parchments: parchments,);
             });
           case ROUTES_PROFILE:
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return ProfilePage();
             });
           case ROUTES_AUTH:
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               final Redirection redirection = settings.arguments;
               return AuthPage(redirection: redirection);
             });
           case ROUTES_PARCHMENT_DETAIL:
             final Parchment parchment = settings.arguments;
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return ParchmentPage(parchment: parchment);
             });
           case ROUTES_PARCHMENT_DETAIL_RANDOM:
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return RandomParchmentPage();
             });
           case ROUTES_PARCHMENT_CREATE:
             final Parchment parchment = settings.arguments;
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return CreateParchmentPage(parentParchment: parchment,);
             });
           case ROUTES_PARCHMENT_CONTINUATIONS:
             final Parchment parchment = settings.arguments;
-            return MaterialPageRoute(builder: (_) {
+            return MyCustomRoute(builder: (_) {
               return ContinuationsPage(parchment: parchment,);
             });
         }
@@ -84,5 +84,18 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
+  }
+}
+
+class MyCustomRoute<T> extends MaterialPageRoute<T> {
+  MyCustomRoute({ WidgetBuilder builder, RouteSettings settings })
+      : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return new FadeTransition(opacity: animation, child: child);
   }
 }

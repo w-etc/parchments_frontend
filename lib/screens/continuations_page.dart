@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/components/menu_drawer.dart';
 import 'package:parchments_flutter/components/parchment_card/parchment_card_list.dart';
+import 'package:parchments_flutter/components/parchments_app_bar.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
@@ -66,6 +68,8 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
+              appBar: ParchmentsAppBar(breadcrumbsActive: false,),
+              drawer: MenuDrawer(),
               body: Container(
                 alignment: Alignment.center,
                 child:

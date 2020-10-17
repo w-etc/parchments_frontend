@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/painters/diamond_painter.dart';
 import 'package:parchments_flutter/components/breadcrumbs_drawer.dart';
+import 'package:parchments_flutter/components/parchments_app_bar.dart';
 import 'package:parchments_flutter/components/read_continuations_button.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
@@ -16,20 +17,7 @@ class ParchmentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: null,
-        iconTheme: IconThemeData(color: Colors.black),
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: Image(image: AssetImage('assets/breadcrumbs_black.png')),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-          ),
-        ],
-      ),
+      appBar: ParchmentsAppBar(breadcrumbsActive: true),
       drawer: MenuDrawer(),
       endDrawer: BreadcrumbsDrawer(breadcrumbs: parchment.breadcrumbs),
       body: Center(
