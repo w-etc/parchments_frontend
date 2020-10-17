@@ -35,7 +35,7 @@ class ParchmentView extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 40),
-                    child: Text(parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),),
+                    child: Text(parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 100, top: 15,),
