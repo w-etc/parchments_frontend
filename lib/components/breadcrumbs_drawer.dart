@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/breadcrumb_tile.dart';
 import 'package:parchments_flutter/components/painters/vertical_line_painter.dart';
+import 'package:parchments_flutter/components/parchments_drawer_header.dart';
 import 'package:parchments_flutter/models/breadcrumb.dart';
 
 class BreadcrumbsDrawer extends StatelessWidget {
@@ -29,15 +30,7 @@ class BreadcrumbsDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          Container(
-            height: 32.0,
-            child: DrawerHeader(
-              child: Container(),
-              decoration: BoxDecoration(
-                color: Colors.black,
-              ),
-            ),
-          ),
+          ParchmentsDrawerHeader(),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(0.0),

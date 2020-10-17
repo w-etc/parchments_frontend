@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/components/question_mark_icon.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/routes.dart';
@@ -50,13 +51,7 @@ class ParchmentsNavigationBar extends StatelessWidget {
           title: Text('Write',),
         ),
         BottomNavigationBarItem(
-          icon: Stack(
-            alignment: Alignment.center,
-            children: [
-              Icon(Icons.lens, color: Colors.white, size: 30.0,),
-              Text('?', style: TextStyle(fontFamily: CINZEL, fontWeight: FontWeight.bold, fontSize: 20.0),),
-            ],
-          ),
+          icon: QuestionMarkIcon(),
           title: Text('Random'),
         ),
       ],

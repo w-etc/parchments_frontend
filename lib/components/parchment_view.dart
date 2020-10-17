@@ -6,7 +6,7 @@ import 'package:parchments_flutter/components/read_continuations_button.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import '../routes.dart';
+import 'menu_drawer.dart';
 
 class ParchmentView extends StatelessWidget {
   final Parchment parchment;
@@ -30,6 +30,7 @@ class ParchmentView extends StatelessWidget {
           ),
         ],
       ),
+      drawer: MenuDrawer(),
       endDrawer: BreadcrumbsDrawer(breadcrumbs: parchment.breadcrumbs),
       body: Center(
         child: ListView(
