@@ -85,7 +85,7 @@ class HttpService {
         '$BACKEND_URL/parchment',
         headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},
         body: jsonEncode({
-          'parchment': {'title': parchment.title, 'contents': parchment.contents,},
+          'parchment': {'title': parchment.title, 'synopsis': parchment.synopsis, 'contents': parchment.contents,},
           'previousParchmentId': parchment.parentParchmentId,
         })
     );
