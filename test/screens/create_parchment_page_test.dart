@@ -42,15 +42,19 @@ void main() {
     widget = getMaterialWidget(parchmentPage);
   });
 
-  testWidgets('sends the inputted title and contents in an http request', (WidgetTester tester) async {
+  testWidgets('sends the inputted title, synopsis and contents in an http request', (WidgetTester tester) async {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
     const parchmentTitle = 'Pretty title';
+    const parchmentSynopsis = 'Pretty synopsis';
     const parchmentContents = 'Pretty contents';
     await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
+    await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+    await tester.pumpAndSettle();
     await tester.enterText(find.byKey(CONTENTS_INPUT_KEY), parchmentContents);
-    await tester.tap(find.text('Save'));
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
 
     await tester.pumpAndSettle();
 
@@ -63,7 +67,11 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Save'));
+    // One tap for Next, the other tap for Save
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
 
     expect(find.byType(CreateParchmentPage), findsNothing);
@@ -74,7 +82,11 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Save'));
+    // One tap for Next, the other tap for Save
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
 
     await simulateBackButton(tester);

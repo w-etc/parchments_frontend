@@ -66,6 +66,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FlatButton(
+                  key: Key('create_parchments_submit_button'),
                   onPressed: () => _submit(buildContext),
                   child: Text(_writingSynopsis ? 'Next' : 'Save', textAlign: TextAlign.end, style: TextStyle(fontFamily: CINZEL, color: Colors.white, fontSize: 20,),),
                 )

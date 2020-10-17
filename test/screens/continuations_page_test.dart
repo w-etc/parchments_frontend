@@ -50,7 +50,7 @@ void main() {
     });
 
     testWidgets('if there are backend continuations, renders a ParchmentCard for each continuation', (WidgetTester tester) async {
-      const parchmentJson = {'title': '', 'contents': ''};
+      const parchmentJson = {'title': '', 'synopsis': ''};
       HttpService.client = MockClient((request) async {
         return Response(jsonEncode({'parchment': {'continuations': [parchmentJson, parchmentJson, parchmentJson]}}), 200);
       });
@@ -64,7 +64,7 @@ void main() {
 
   group('Using local continuations', () {
     setUp(() {
-      parchment = Parchment(continuations: [Parchment(title: '', contents: '')]);
+      parchment = Parchment(continuations: [Parchment(title: '', synopsis: '')]);
       ContinuationsPage continuationsPage = ContinuationsPage(parchment: parchment,);
       widget = getMaterialWidget(continuationsPage);
     });

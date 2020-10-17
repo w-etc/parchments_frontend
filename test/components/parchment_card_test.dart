@@ -18,15 +18,15 @@ Widget getMaterialWidget(Widget child) {
 
 void main() {
   String parchmentTitle = 'Title';
-  String parchmentContents = 'Contents';
-  Parchment parchment = Parchment(title: parchmentTitle, contents: parchmentContents);
+  String parchmentSynopsis = 'Synopsis';
+  Parchment parchment = Parchment(title: parchmentTitle, synopsis: parchmentSynopsis);
 
   testWidgets('ParchmentCard displays a Parchment\'s title and contents', (WidgetTester tester) async {
     MaterialApp widget = getMaterialWidget(ParchmentCard(parchment: parchment,));
     await tester.pumpWidget(widget);
 
     expect(find.text(parchmentTitle), findsOneWidget);
-    expect(find.text(parchmentContents), findsOneWidget);
+    expect(find.text(parchmentSynopsis), findsOneWidget);
   });
 
   testWidgets('ParchmentCard pushes ROUTES_PARCHMENT_DETAIL when tapped', (WidgetTester tester) async {
