@@ -36,7 +36,7 @@ void main() {
 
     StorageProvider.storage = MockSecureStorage();
     HttpService.client = MockClient((request) async {
-      return Response(jsonEncode({'continuations': []}), 200);
+      return Response(jsonEncode({'parchment': {'continuations': []}}), 200);
     });
   });
 
@@ -52,7 +52,7 @@ void main() {
     testWidgets('if there are backend continuations, renders a ParchmentCard for each continuation', (WidgetTester tester) async {
       const parchmentJson = {'title': '', 'contents': ''};
       HttpService.client = MockClient((request) async {
-        return Response(jsonEncode({'continuations': [parchmentJson, parchmentJson, parchmentJson]}), 200);
+        return Response(jsonEncode({'parchment': {'continuations': [parchmentJson, parchmentJson, parchmentJson]}}), 200);
       });
 
       await tester.pumpWidget(widget);

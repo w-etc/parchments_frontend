@@ -39,7 +39,7 @@ void main() {
     StorageProvider.storage = MockSecureStorage();
     HttpService.client = MockClient((request) async {
       parchmentRequest = request;
-      return Response(jsonEncode({'title': parchmentTitle, 'contents': parchmentContents}), 200);
+      return Response(jsonEncode({'parchment': {'title': parchmentTitle, 'contents': parchmentContents}}), 200);
     });
 
     ParchmentPage parchmentPage = ParchmentPage(parchment: parchment,);
