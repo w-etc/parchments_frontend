@@ -28,7 +28,7 @@ class BreadcrumbTile extends StatelessWidget {
                 painter: DiamondPainter(length: 30.0),
               ),
             ),
-            Text(breadcrumb.title, style: TextStyle(fontSize: 18.0, fontFamily: CINZEL),),
+            Flexible(child: Text(breadcrumb.title, style: TextStyle(fontSize: 18.0, fontFamily: CINZEL),)),
           ],
         ),
       ),

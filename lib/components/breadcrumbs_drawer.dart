@@ -17,7 +17,7 @@ class BreadcrumbsDrawer extends StatelessWidget {
       breadcrumbTiles.add(Padding(
         padding: const EdgeInsets.only(left: 30),
         child: CustomPaint(
-          painter: VerticalLinePainter(height: 50.0),
+          painter: VerticalLinePainter(height: 90.0),
         ),
       ),);
       breadcrumbTiles.add(BreadcrumbTile(breadcrumb: breadcrumb,));
