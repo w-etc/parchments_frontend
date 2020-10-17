@@ -83,29 +83,32 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
                     ),
                     onRefresh: _refresh,
                   )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FadeTransition(
-                          opacity: _firstAnimation,
-                          child: Container(
-                            child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                  : Padding(
+                    padding: const EdgeInsets.only(top: 150),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          FadeTransition(
+                            opacity: _firstAnimation,
+                            child: Container(
+                              child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                            ),
                           ),
-                        ),
-                        FadeTransition(
-                          opacity: _secondAnimation,
-                          child: Container(
-                            padding: EdgeInsets.only(top: 50, bottom: 50,),
-                            child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                          FadeTransition(
+                            opacity: _secondAnimation,
+                            child: Container(
+                              padding: EdgeInsets.only(top: 50, bottom: 50,),
+                              child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                            ),
                           ),
-                        ),
-                        FadeTransition(
-                          opacity: _thirdAnimation,
-                          child: Container(
-                            child: WriteButton(parchment: widget.parchment, replaceRoute: true),
+                          FadeTransition(
+                            opacity: _thirdAnimation,
+                            child: Container(
+                              child: WriteButton(parchment: widget.parchment, replaceRoute: true),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                    ),
                   ),
               ),
             );
