@@ -19,6 +19,18 @@ class _ParchmentCardState extends State<ParchmentCard> {
     Navigator.pushNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: widget.parchment);
   }
 
+  void _showSynopsis() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Synopsis', style: TextStyle(fontFamily: CINZEL),),
+        content: SingleChildScrollView(
+            child: Text(widget.parchment.synopsis, style: TextStyle(fontFamily: NOTO_SERIF),),
+        ),
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,6 +38,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: _goToDetail,
+        onLongPress: _showSynopsis,
         child: Container(
           child: Column(
             children: [
