@@ -42,6 +42,31 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     }
   }
 
+  Future<bool> _confirmBack() async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text('Discard this Parchment?', style: TextStyle(fontFamily: CINZEL),),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No', style: TextStyle(fontFamily: NOTO_SERIF),),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            FlatButton(
+              child: Text('Yes', style: TextStyle(fontFamily: NOTO_SERIF)),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   Parchment _currentParchment() {
     return Parchment(parentParchmentId: _parentParchmentId(), title: parchmentTitleController.text, synopsis: parchmentSynopsisController.text, contents: parchmentBodyController.text);
   }
@@ -58,68 +83,71 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Builder(
-          builder: (BuildContext buildContext) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FlatButton(
-                  key: Key('create_parchments_submit_button'),
-                  onPressed: () => _submit(buildContext),
-                  child: Text(_writingSynopsis ? 'Next' : 'Save', textAlign: TextAlign.end, style: TextStyle(fontFamily: CINZEL, color: Colors.white, fontSize: 20,),),
-                )
-              ],
-            );
-          },
+    return WillPopScope(
+      onWillPop: _confirmBack,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Builder(
+            builder: (BuildContext buildContext) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                    key: Key('create_parchments_submit_button'),
+                    onPressed: () => _submit(buildContext),
+                    child: Text(_writingSynopsis ? 'Next' : 'Save', textAlign: TextAlign.end, style: TextStyle(fontFamily: CINZEL, color: Colors.white, fontSize: 20,),),
+                  )
+                ],
+              );
+            },
+          ),
         ),
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 30, left: 40, right: 40,),
-            child: TextField(
-              key: TITLE_INPUT_KEY,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),
-              decoration: InputDecoration.collapsed(
-                hintText: 'Title',
-                hintStyle: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.normal,),
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 30, left: 40, right: 40,),
+              child: TextField(
+                key: TITLE_INPUT_KEY,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),
+                decoration: InputDecoration.collapsed(
+                  hintText: 'Title',
+                  hintStyle: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.normal,),
+                ),
+                maxLines: null,
+                controller: parchmentTitleController,
               ),
-              maxLines: null,
-              controller: parchmentTitleController,
             ),
-          ),
-          Expanded(
-            child: PageView(
-              onPageChanged: _onPageChanged,
-              controller: _pageController,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: 50, left: 20, right: 20,),
-                  child: TextField(
-                    key: SYNOPSIS_INPUT_KEY,
-                    maxLines: null,
-                    decoration: InputDecoration.collapsed(hintText: 'Synopsis', hintStyle: TextStyle(fontFamily: NOTO_SERIF,),),
-                    style: TextStyle(fontFamily: NOTO_SERIF,),
-                    controller: parchmentSynopsisController,
+            Expanded(
+              child: PageView(
+                onPageChanged: _onPageChanged,
+                controller: _pageController,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 50, left: 20, right: 20,),
+                    child: TextField(
+                      key: SYNOPSIS_INPUT_KEY,
+                      maxLines: null,
+                      decoration: InputDecoration.collapsed(hintText: 'Synopsis', hintStyle: TextStyle(fontFamily: NOTO_SERIF,),),
+                      style: TextStyle(fontFamily: NOTO_SERIF,),
+                      controller: parchmentSynopsisController,
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 50, left: 20, right: 20,),
-                  child: TextField(
-                    key: CONTENTS_INPUT_KEY,
-                    maxLines: null,
-                    decoration: InputDecoration.collapsed(hintText: 'Once upon a time...', hintStyle: TextStyle(fontFamily: NOTO_SERIF,),),
-                    style: TextStyle(fontFamily: NOTO_SERIF,),
-                    controller: parchmentBodyController,
+                  Container(
+                    padding: EdgeInsets.only(top: 50, left: 20, right: 20,),
+                    child: TextField(
+                      key: CONTENTS_INPUT_KEY,
+                      maxLines: null,
+                      decoration: InputDecoration.collapsed(hintText: 'Once upon a time...', hintStyle: TextStyle(fontFamily: NOTO_SERIF,),),
+                      style: TextStyle(fontFamily: NOTO_SERIF,),
+                      controller: parchmentBodyController,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
