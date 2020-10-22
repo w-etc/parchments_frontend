@@ -16,7 +16,7 @@ class _LoadingOverlayState extends State<LoadingOverlay> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _rotationController = AnimationController(duration: Duration(seconds: 1), vsync: this)..repeat();
+    _rotationController = AnimationController(duration: Duration(seconds: 1),)..repeat();
   }
 
   @override

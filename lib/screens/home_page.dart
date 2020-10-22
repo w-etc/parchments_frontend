@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:parchments_flutter/components/parchment_card/parchment_card_list.dart';
+import 'package:parchments_flutter/components/painters/diamond_painter.dart';
+import 'package:parchments_flutter/components/parchment_card/parchment_card.dart';
 import 'package:parchments_flutter/components/parchments_navigation_bar.dart';
 import 'package:parchments_flutter/components/search_bar.dart';
-import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/services/http_service.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -13,18 +14,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List<Parchment>> coreParchments;
+  final int _pageSize = 5;
+  final _pagingController = PagingController<int, Parchment>(firstPageKey: 0);
 
   @override
   void initState() {
     super.initState();
-    coreParchments = HttpService.getCoreParchments();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newParchments = await HttpService.getCoreParchments(pageKey);
+      final isLastPage = newParchments.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newParchments);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newParchments, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   Future<void> _refresh() async {
-    setState(() {
-      coreParchments = HttpService.getCoreParchments();
-    });
+    _fetchPage(0);
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,29 +56,26 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: ParchmentsNavigationBar(),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        child: ListView(
-          padding: EdgeInsets.only(left: 30, right: 30,),
+        child: Column(
           children: [
             SearchBar(),
-            FutureBuilder<List<Parchment>>(
-              future: coreParchments,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data.length > 0) {
-                    return Column(
-                        children: [
-                          ParchmentCardList(parchments: snapshot.data),
-                        ],
-                    );
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(top: 200, left: 30, right: 30),
-                    child: Text('We\'re having trouble bringing the latest Parchments. Please try again later.', style: TextStyle(fontFamily: NOTO_SERIF, fontSize: 16.0), textAlign: TextAlign.center,)
-                  );
-                }
-                return Container();
-              },
-            )
+            Expanded(
+              child: PagedListView.separated(
+                padding: EdgeInsets.only(left: 30, right: 30,),
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Parchment>(
+                  itemBuilder: (context, item, index) => ParchmentCard(
+                    parchment: item,
+                  ),
+                ),
+                separatorBuilder: (context, index) => Container(
+                    alignment: Alignment.center,
+                    child: CustomPaint(
+                      painter: DiamondPainter(length: 10),
+                    )
+                ),
+              ),
+            ),
           ],
         ),
       ),

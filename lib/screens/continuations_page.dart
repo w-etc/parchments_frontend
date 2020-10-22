@@ -30,7 +30,6 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
   void initState() {
     super.initState();
     _controller = AnimationController(
-      vsync: this,
       duration: Duration(seconds: 2),
     );
     _firstAnimation = Tween(

@@ -118,9 +118,9 @@ class HttpService {
     return await storageRetriever.getToken();
   }
 
-  static Future<List<Parchment>> getCoreParchments() async {
+  static Future<List<Parchment>> getCoreParchments(int pagekey) async {
     final response = await client.get(
-      '$BACKEND_URL/parchment/core',
+      '$BACKEND_URL/parchment/core?page=$pagekey',
     );
 
     if (response.statusCode == 200) {
