@@ -118,6 +118,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
             Container(
               padding: EdgeInsets.only(top: 30, left: 40, right: 40,),
               child: TextField(
+                maxLength: 50,
                 key: TITLE_INPUT_KEY,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),
