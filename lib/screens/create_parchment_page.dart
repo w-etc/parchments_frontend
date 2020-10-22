@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
@@ -35,11 +36,21 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
       _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeInOutQuart);
       return;
     }
-    //TODO: Validation
+    if (_emptyFieldRemains()) {
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('create_parchment_empty_fields_snackbar'), content: Text('You left some fields empty', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+      return;
+    }
+    Scaffold.of(context).hideCurrentSnackBar();
     Parchment createdParchment = await HttpService.createParchment(context, _currentParchment());
     if (createdParchment != null) {
       Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchment);
     }
+  }
+
+  bool _emptyFieldRemains() {
+    return parchmentTitleController.text.isEmpty
+        || parchmentSynopsisController.text.isEmpty
+        || parchmentBodyController.text.isEmpty;
   }
 
   Future<bool> _confirmBack() async {

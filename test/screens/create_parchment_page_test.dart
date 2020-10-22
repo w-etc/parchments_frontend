@@ -31,6 +31,10 @@ void main() {
   Parchment parchment = Parchment();
   MaterialApp widget;
 
+  const parchmentTitle = 'Pretty title';
+  const parchmentSynopsis = 'Pretty synopsis';
+  const parchmentContents = 'Pretty contents';
+
   setUp(() {
     StorageProvider.storage = MockSecureStorage();
     HttpService.client = MockClient((request) async {
@@ -46,9 +50,6 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    const parchmentTitle = 'Pretty title';
-    const parchmentSynopsis = 'Pretty synopsis';
-    const parchmentContents = 'Pretty contents';
     await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
     await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
     await tester.tap(find.byKey(Key('create_parchments_submit_button')));
@@ -67,9 +68,14 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
+    await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
+    await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
+
     // One tap for Next, the other tap for Save
     await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(CONTENTS_INPUT_KEY), parchmentContents);
 
     await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
@@ -82,9 +88,14 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
+    await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
+    await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
+
     // One tap for Next, the other tap for Save
     await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(CONTENTS_INPUT_KEY), parchmentContents);
 
     await tester.tap(find.byKey(Key('create_parchments_submit_button')));
     await tester.pumpAndSettle();
@@ -94,4 +105,47 @@ void main() {
     expect(find.byType(CreateParchmentPage), findsNothing);
   });
 
+  group('Validations', () {
+    testWidgets('submitting without a title raises a snackbar', (WidgetTester tester) async {
+      await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(CONTENTS_INPUT_KEY), parchmentContents);
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(Key('create_parchment_empty_fields_snackbar')), findsOneWidget);
+    });
+
+    testWidgets('submitting without a synopsis raises a snackbar', (WidgetTester tester) async {
+      await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(CONTENTS_INPUT_KEY), parchmentContents);
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(Key('create_parchment_empty_fields_snackbar')), findsOneWidget);
+    });
+
+    testWidgets('submitting without contents raises a snackbar', (WidgetTester tester) async {
+      await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(TITLE_INPUT_KEY), parchmentTitle);
+      await tester.enterText(find.byKey(SYNOPSIS_INPUT_KEY), parchmentSynopsis);
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key('create_parchments_submit_button')));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(Key('create_parchment_empty_fields_snackbar')), findsOneWidget);
+    });
+  });
 }
