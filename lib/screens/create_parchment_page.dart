@@ -53,7 +53,16 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
         || parchmentBodyController.text.isEmpty;
   }
 
+  bool _allFieldsEmpty() {
+    return parchmentTitleController.text.isEmpty
+        && parchmentSynopsisController.text.isEmpty
+        && parchmentBodyController.text.isEmpty;
+  }
+
   Future<bool> _confirmBack() async {
+    if (_allFieldsEmpty()) {
+      return true;
+    }
     return showDialog(
       context: context,
       builder: (context) {
