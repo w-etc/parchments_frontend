@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parchments_flutter/components/breadcrumb_tile.dart';
+import 'package:parchments_flutter/components/parchment_tile.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/breadcrumb.dart';
 import 'package:parchments_flutter/models/parchment.dart';
@@ -36,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.pushNamed(context, ROUTES_HOME);
   }
 
-  List<BreadcrumbTile> _parchmentTiles(List<Parchment> parchments) {
-    return parchments.map((parchment) => BreadcrumbTile(breadcrumb: Breadcrumb(id: parchment.id, title: parchment.title))).toList();
+  List<ParchmentTile> _parchmentTiles(List<Parchment> parchments) {
+    return parchments.map((parchment) => ParchmentTile(id: parchment.id, title: parchment.title)).toList();
   }
 
   @override
@@ -93,17 +93,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SizedBox(
                       height: 400,
-                      child: Scrollbar(
-                        isAlwaysShown: true,
-                        controller: _scrollController,
-                        child: NotificationListener<OverscrollIndicatorNotification>(
-                          onNotification: (OverscrollIndicatorNotification overscroll) {
-                            overscroll.disallowGlow();
-                            return;
-                          },
-                          child: ListView(
-                            controller: _scrollController,
-                            children: _parchmentTiles(snapshot.data),
+                      child: MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: Scrollbar(
+                          isAlwaysShown: true,
+                          controller: _scrollController,
+                          child: NotificationListener<OverscrollIndicatorNotification>(
+                            onNotification: (OverscrollIndicatorNotification overscroll) {
+                              overscroll.disallowGlow();
+                              return;
+                            },
+                            child: MediaQuery.removePadding(
+                              removeTop: true,
+                              context: context,
+                                child: ListView(
+                                  controller: _scrollController,
+                                  children: _parchmentTiles(snapshot.data),
+                                ),
+                            ),
                           ),
                         ),
                       ),
