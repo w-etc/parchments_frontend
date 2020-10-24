@@ -23,4 +23,13 @@ class StorageProvider {
   Future<String> getUsername() async {
     return await storage.read(key: USERNAME);
   }
+
+  Future<void> setId(int id) async {
+    await storage.write(key: WRITER_ID, value: id.toString());
+  }
+
+  Future<int> getId() async {
+    final writerIdString = await storage.read(key: WRITER_ID);
+    return int.parse(writerIdString);
+  }
 }

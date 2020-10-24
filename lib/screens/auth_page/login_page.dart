@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         final result = await HttpService.login(username, password);
         final storageProvider = StorageProvider();
         await storageProvider.setToken(result['token']);
+        await storageProvider.setId(result['id']);
         await storageProvider.setUsername(username);
         Navigator.pushReplacementNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
       } catch (e) {

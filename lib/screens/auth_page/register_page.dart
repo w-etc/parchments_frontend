@@ -66,6 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
         final result = await HttpService.register(usernameInput.text(), passwordInput.text());
         final storageProvider = StorageProvider();
         await storageProvider.setToken(result['token']);
+        await storageProvider.setId(result['id']);
         await storageProvider.setUsername(usernameInput.text());
         Navigator.pushReplacementNamed(context, widget.redirection?.to?? ROUTES_HOME, arguments: widget.redirection?.arguments);
       } catch (e) {
