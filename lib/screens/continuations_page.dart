@@ -98,7 +98,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
                 ),
                 noItemsFoundIndicatorBuilder: (context) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 150),
+                    padding: const EdgeInsets.only(top: 100),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
