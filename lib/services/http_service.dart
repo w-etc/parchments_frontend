@@ -136,4 +136,16 @@ class HttpService {
       return null;
     }
   }
+
+  static Future<List<Parchment>> getWriterParchments() async {
+    final writerId = await storageRetriever.getId();
+    final response = await client.get('$BACKEND_URL/parchment/writer/$writerId');
+
+    if (response.statusCode == 200) {
+      final parchments = json.decode(response.body) as List;
+      return parchments.map((innerParchment) => Parchment.fromJson(innerParchment)).toList();
+    } else {
+      return null;
+    }
+  }
 }
