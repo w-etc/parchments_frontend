@@ -96,9 +96,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Scrollbar(
                         isAlwaysShown: true,
                         controller: _scrollController,
-                        child: ListView(
-                          controller: _scrollController,
-                          children: _parchmentTiles(snapshot.data),
+                        child: NotificationListener<OverscrollIndicatorNotification>(
+                          onNotification: (OverscrollIndicatorNotification overscroll) {
+                            overscroll.disallowGlow();
+                            return;
+                          },
+                          child: ListView(
+                            controller: _scrollController,
+                            children: _parchmentTiles(snapshot.data),
+                          ),
                         ),
                       ),
                     ),
