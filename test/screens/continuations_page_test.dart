@@ -30,14 +30,13 @@ void main() {
   Parchment parchment;
 
   setUp(() {
+    StorageProvider.storage = MockSecureStorage();
+    HttpService.client = MockClient((request) async {
+      return Response(jsonEncode([]), 200);
+    });
     parchment = Parchment(continuations: []);
     ContinuationsPage continuationsPage = ContinuationsPage(parchment: parchment,);
     widget = getMaterialWidget(continuationsPage);
-
-    StorageProvider.storage = MockSecureStorage();
-    HttpService.client = MockClient((request) async {
-      return Response(jsonEncode({'parchment': {'continuations': []}}), 200);
-    });
   });
 
   group('Fetching from backend', () {
@@ -52,28 +51,13 @@ void main() {
     testWidgets('if there are backend continuations, renders a ParchmentCard for each continuation', (WidgetTester tester) async {
       const parchmentJson = {'title': '', 'synopsis': ''};
       HttpService.client = MockClient((request) async {
-        return Response(jsonEncode({'parchment': {'continuations': [parchmentJson, parchmentJson, parchmentJson]}}), 200);
+        return Response(jsonEncode([parchmentJson, parchmentJson, parchmentJson]), 200);
       });
 
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
 
       expect(find.byType(ParchmentCard), findsNWidgets(3));
-    });
-  });
-
-  group('Using local continuations', () {
-    setUp(() {
-      parchment = Parchment(continuations: [Parchment(title: '', synopsis: '')]);
-      ContinuationsPage continuationsPage = ContinuationsPage(parchment: parchment,);
-      widget = getMaterialWidget(continuationsPage);
-    });
-
-    testWidgets('if there are local continuations, renders a ParchmentCard for each continuation', (WidgetTester tester) async {
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ParchmentCard), findsNWidgets(1));
     });
   });
 }

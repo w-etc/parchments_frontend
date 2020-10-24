@@ -99,19 +99,14 @@ class HttpService {
     return null;
   }
 
-  static Future<List<Parchment>> getContinuations(Parchment parchment) async {
-    if (parchment.continuations.length > 0) {
-      return parchment.continuations;
-    }
-    Parchment retrievedParchment;
-    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}');
-
+  static Future<List<Parchment>> getContinuations(Parchment parchment, int pageKey) async {
+    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}/continuations?page=$pageKey');
     if (response.statusCode == 200) {
-      retrievedParchment = Parchment.fromJson(json.decode(response.body)['parchment']);
+      final parsedBody = json.decode(response.body) as List;
+      return parsedBody.map((parchment) => Parchment.fromJson(parchment)).toList();
     } else {
-      retrievedParchment = Parchment(contents: 'It seems we couldn\'t get this Parchment');
+      return [];
     }
-    return retrievedParchment.continuations;
   }
 
   static Future<String> getToken() async {
