@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client;
+import 'package:http/src/response.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/urls.dart';
@@ -58,11 +59,7 @@ class HttpService {
     final response = await client.get('$BACKEND_URL/parchment/$parchmentId');
 
     if (response.statusCode == 200) {
-      final parsedJson = json.decode(response.body);
-      final breadcrumbs = ((parsedJson['breadcrumbs']?? []) as List).map((innerBreadcrumb) => Breadcrumb.fromJson(innerBreadcrumb)).toList();
-      final parchment = Parchment.fromJson(parsedJson['parchment']);
-      parchment.breadcrumbs = breadcrumbs;
-      return parchment;
+      return _parchmentWithBreadcrumbs(response);
     } else {
       return Parchment(contents: 'It seems we couldn\'t get this Parchment');
     }
@@ -73,10 +70,18 @@ class HttpService {
     await Future.delayed(Duration(seconds: 2));
 
     if (response.statusCode == 200) {
-      return Parchment.fromJson(json.decode(response.body));
+      return _parchmentWithBreadcrumbs(response);
     } else {
       return Parchment(contents: 'It seems we couldn\'t get this Parchment');
     }
+  }
+
+  static Parchment _parchmentWithBreadcrumbs(Response response) {
+    final parsedJson = json.decode(response.body);
+    final breadcrumbs = ((parsedJson['breadcrumbs']?? []) as List).map((innerBreadcrumb) => Breadcrumb.fromJson(innerBreadcrumb)).toList();
+    final parchment = Parchment.fromJson(parsedJson['parchment']);
+    parchment.breadcrumbs = breadcrumbs;
+    return parchment;
   }
 
   static Future<Parchment> createParchment(BuildContext context, Parchment parchment) async {
