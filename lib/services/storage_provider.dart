@@ -32,4 +32,9 @@ class StorageProvider {
     final writerIdString = await storage.read(key: WRITER_ID);
     return int.parse(writerIdString);
   }
+
+  Future<bool> userIsAuthenticated() async {
+    final token = await getToken();
+    return token != null && token.isNotEmpty;
+  }
 }

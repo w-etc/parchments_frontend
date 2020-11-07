@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/painters/diamond_painter.dart';
 import 'package:parchments_flutter/components/breadcrumbs_drawer.dart';
+import 'package:parchments_flutter/components/parchment_votes.dart';
 import 'package:parchments_flutter/components/parchments_app_bar.dart';
 import 'package:parchments_flutter/components/read_continuations_button.dart';
 import 'package:parchments_flutter/components/write_button.dart';
@@ -23,6 +24,7 @@ class ParchmentView extends StatelessWidget {
       body: Center(
         child: ListView(
           children: [
+            ParchmentVotes(parchment: parchment),
             Padding(
               padding: EdgeInsets.only(left: 20, right: 20, top: 50, bottom: 50,),
               child: Column(

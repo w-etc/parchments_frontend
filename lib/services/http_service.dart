@@ -56,7 +56,17 @@ class HttpService {
   }
 
   static Future<Parchment> getParchment(int parchmentId) async {
-    final response = await client.get('$BACKEND_URL/parchment/$parchmentId');
+    final token = await storageRetriever.getToken();
+    Response response;
+    if (token != null && token.isNotEmpty) {
+      response = await client.get(
+        '$BACKEND_URL/parchment/$parchmentId',
+        headers: {'Authorization': 'Bearer $token'}
+      );
+    } else {
+      response = await client.get('$BACKEND_URL/parchment/$parchmentId');
+    }
+
 
     if (response.statusCode == 200) {
       return _parchmentWithBreadcrumbs(response);
@@ -152,5 +162,25 @@ class HttpService {
     } else {
       return null;
     }
+  }
+
+  static Future<bool> toggleVote(Parchment parchment) async {
+    if (parchment.readerVoted) {
+      return HttpService._cancelVoteParchment(parchment.id);
+    } else {
+      return await HttpService._voteParchment(parchment.id);
+    }
+  }
+
+  static Future<bool> _voteParchment(int parchmentId) async {
+    final token = await storageRetriever.getToken();
+    final response = await client.post('$BACKEND_URL/parchment/$parchmentId/vote', headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},);
+    return response.statusCode == 200;
+  }
+
+  static Future<bool> _cancelVoteParchment(int parchmentId) async {
+    final token = await storageRetriever.getToken();
+    final response = await client.post('$BACKEND_URL/parchment/$parchmentId/cancel-vote', headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},);
+    return response.statusCode == 200;
   }
 }

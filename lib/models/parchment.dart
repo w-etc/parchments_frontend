@@ -8,8 +8,10 @@ class Parchment {
   final String contents;
   final List<Parchment> continuations;
   List<Breadcrumb> breadcrumbs;
+  bool readerVoted;
+  int voteCount;
 
-  Parchment({this.parentParchmentId, this.id, this.title, this.synopsis, this.contents, this.continuations, this.breadcrumbs});
+  Parchment({this.parentParchmentId, this.id, this.title, this.synopsis, this.contents, this.continuations, this.breadcrumbs, this.readerVoted, this.voteCount});
 
   factory Parchment.fromJson(Map<String, dynamic> json) {
     final parchment = json;
@@ -21,6 +23,8 @@ class Parchment {
       synopsis: parchment['synopsis'],
       contents: parchment['contents'],
       continuations: continuations?.map((innerParchment) => Parchment.fromJson(innerParchment))?.toList(),
+      readerVoted: parchment['readerVoted'],
+      voteCount: parchment['voteCount'],
     );
   }
 }
