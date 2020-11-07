@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() async {
-    _fetchPage(0);
+    _pagingController.refresh();
   }
 
   @override

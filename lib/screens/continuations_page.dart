@@ -78,7 +78,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
   }
 
   Future<void> _refresh() async {
-    _fetchPage(0);
+    _pagingController.refresh();
   }
 
   @override
