@@ -42,7 +42,7 @@ void main() {
       return Response(jsonEncode({}), 200);
     });
 
-    CreateParchmentPage parchmentPage = CreateParchmentPage(parentParchment: parchment,);
+    CreateParchmentPage parchmentPage = CreateParchmentPage(parentParchmentId: parchment?.id,);
     widget = getMaterialWidget(parchmentPage);
   });
 

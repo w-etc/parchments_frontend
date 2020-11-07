@@ -16,11 +16,11 @@ const SYNOPSIS_INPUT_KEY = Key('create_parchment_page_synopsis_input');
 const CONTENTS_INPUT_KEY = Key('create_parchment_page_contents_input');
 
 class CreateParchmentPage extends StatefulWidget {
-  final Parchment parentParchment;
+  int parentParchmentId;
 
-  const CreateParchmentPage({
+  CreateParchmentPage({
     Key key,
-    @required this.parentParchment,
+    @required this.parentParchmentId,
   }): super(key: key);
 
 
@@ -42,6 +42,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     StorageProvider().getParchmentInProgress()
     .then((Parchment parchment) {
       if (parchment != null) {
+        widget.parentParchmentId = parchment.parentParchmentId;
         parchmentTitleController.text = parchment.title;
         parchmentSynopsisController.text = parchment.synopsis;
         parchmentBodyController.text = parchment.contents;
@@ -66,7 +67,6 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     } on AuthenticationError catch (e) {
       await _saveParchmentData();
       await takeUserToRefreshToken(context, ROUTES_PARCHMENT_CREATE, null);
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     } on HttpException catch (e) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     }
@@ -122,7 +122,7 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   }
 
   int _parentParchmentId() {
-    return widget.parentParchment != null ? widget.parentParchment.id : null;
+    return widget.parentParchmentId ?? null;
   }
 
   void _onPageChanged(int page) {

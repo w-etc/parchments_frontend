@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           case ROUTES_PARCHMENT_CREATE:
             final Parchment parchment = settings.arguments;
             return MyCustomRoute(builder: (_) {
-              return CreateParchmentPage(parentParchment: parchment,);
+              return CreateParchmentPage(parentParchmentId: parchment?.id,);
             });
           case ROUTES_PARCHMENT_CONTINUATIONS:
             final Parchment parchment = settings.arguments;

@@ -33,6 +33,9 @@ class Parchment {
       'title': title,
       'synopsis': synopsis,
       'contents': contents,
+      'parentParchment': {
+        'id': parentParchmentId,
+      },
     };
   }
 }
