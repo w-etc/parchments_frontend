@@ -23,7 +23,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Synopsis', style: TextStyle(fontFamily: CINZEL),),
+        title: Text(widget.parchment.title, style: TextStyle(fontFamily: CINZEL),),
         content: SingleChildScrollView(
             child: Text(widget.parchment.synopsis, style: TextStyle(fontFamily: NOTO_SERIF),),
         ),
