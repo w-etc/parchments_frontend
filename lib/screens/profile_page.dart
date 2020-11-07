@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _signOut() async {
-    await StorageProvider().setToken(null);
+    await StorageProvider().clearToken();
     Navigator.pushNamed(context, ROUTES_HOME);
   }
 

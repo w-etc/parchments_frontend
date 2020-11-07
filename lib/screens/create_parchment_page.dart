@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
+import 'package:parchments_flutter/models/exceptions/authentication_error.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
+import 'package:parchments_flutter/services/storage_provider.dart';
+import 'package:parchments_flutter/util/navigator_util.dart';
 
 const TITLE_INPUT_KEY = Key('create_parchment_page_title_input');
 const SYNOPSIS_INPUT_KEY = Key('create_parchment_page_synopsis_input');
@@ -31,6 +36,20 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
   final parchmentSynopsisController = TextEditingController();
   final parchmentBodyController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    StorageProvider().getParchmentInProgress()
+    .then((Parchment parchment) {
+      if (parchment != null) {
+        parchmentTitleController.text = parchment.title;
+        parchmentSynopsisController.text = parchment.synopsis;
+        parchmentBodyController.text = parchment.contents;
+        StorageProvider().clearParchmentInProgress();
+      }
+    });
+  }
+
   Future<void> _submit(BuildContext context) async {
     if (_writingSynopsis) {
       _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeInOutQuart);
@@ -41,9 +60,15 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
       return;
     }
     Scaffold.of(context).hideCurrentSnackBar();
-    Parchment createdParchment = await HttpService.createParchment(context, _currentParchment());
-    if (createdParchment != null) {
+    try {
+      Parchment createdParchment = await HttpService.createParchment(context, _currentParchment());
       Navigator.pushReplacementNamed(context, ROUTES_PARCHMENT_DETAIL, arguments: createdParchment);
+    } on AuthenticationError catch (e) {
+      await _saveParchmentData();
+      await takeUserToRefreshToken(context, ROUTES_PARCHMENT_CREATE, null);
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+    } on HttpException catch (e) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message, style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
     }
   }
 
@@ -57,6 +82,10 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
     return parchmentTitleController.text.isEmpty
         && parchmentSynopsisController.text.isEmpty
         && parchmentBodyController.text.isEmpty;
+  }
+
+  Future<void> _saveParchmentData() async {
+    await StorageProvider().setParchmentInProgress(_currentParchment());
   }
 
   Future<bool> _confirmBack() async {
@@ -77,7 +106,8 @@ class _CreateParchmentPageState extends State<CreateParchmentPage> {
             ),
             FlatButton(
               child: Text('Yes', style: TextStyle(fontFamily: NOTO_SERIF)),
-              onPressed: () {
+              onPressed: () async {
+                await StorageProvider().clearParchmentInProgress();
                 Navigator.of(context).pop(true);
               },
             ),

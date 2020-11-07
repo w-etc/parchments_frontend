@@ -27,4 +27,12 @@ class Parchment {
       voteCount: parchment['voteCount'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'synopsis': synopsis,
+      'contents': contents,
+    };
+  }
 }

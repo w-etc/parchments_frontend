@@ -1,13 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client;
 import 'package:http/src/response.dart';
-import 'package:parchments_flutter/constants/colors.dart';
-import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/breadcrumb.dart';
+import 'package:parchments_flutter/models/exceptions/authentication_error.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 
@@ -107,11 +107,10 @@ class HttpService {
     if (response.statusCode == 200) {
       return Parchment.fromJson(json.decode(response.body));
     } else if (response.statusCode == 401) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('You must be logged in to create a new Parchment', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+      throw AuthenticationError('You must be logged in to create a Parchment');
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Something went wrong. Please try again.', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
+      throw HttpException('Something went wrong. Please try again.');
     }
-    return null;
   }
 
   static Future<List<Parchment>> getContinuations(Parchment parchment, int pageKey) async {

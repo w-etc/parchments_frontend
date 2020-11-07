@@ -13,3 +13,8 @@ Future<void> takeAuthorizedUserTo(BuildContext context, String route, dynamic ar
   }
   Navigator.pushNamed(context, routeToGo, arguments: argumentsToUse);
 }
+
+Future<void> takeUserToRefreshToken(BuildContext context, String route, dynamic arguments) async {
+  await StorageProvider().clearToken();
+  Navigator.pushReplacementNamed(context, ROUTES_AUTH, arguments: Redirection(to: route, arguments: arguments));
+}
