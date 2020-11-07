@@ -23,7 +23,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(widget.parchment.title, style: TextStyle(fontFamily: CINZEL),),
+        title: Text(widget.parchment.title, style: TextStyle(fontFamily: CINZEL), textAlign: TextAlign.center,),
         content: SingleChildScrollView(
             child: Text(widget.parchment.synopsis, style: TextStyle(fontFamily: NOTO_SERIF),),
         ),
@@ -50,7 +50,7 @@ class _ParchmentCardState extends State<ParchmentCard> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 10,),
-                child: Text(widget.parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,),),
+                child: Text(widget.parchment.title, style: TextStyle(fontSize: 26, fontFamily: CINZEL, fontWeight: FontWeight.bold,), textAlign: TextAlign.center),
               ),
               Container(
                 padding: EdgeInsets.only(left: 25, right: 25, bottom: 10,),
