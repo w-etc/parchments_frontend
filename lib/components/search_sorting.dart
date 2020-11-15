@@ -4,12 +4,11 @@ import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/sorting/alphabetic_sort.dart';
 import 'package:parchments_flutter/models/sorting/most_voted_sort.dart';
 import 'package:parchments_flutter/models/sorting/sort.dart';
-import 'package:parchments_flutter/view_models/sorting_view_model.dart';
 
 class SearchSorting extends StatefulWidget {
-  final SortingViewModel viewModel;
+  final Function callback;
 
-  SearchSorting({this.viewModel});
+  SearchSorting({this.callback});
 
   _SearchSortingState createState() => _SearchSortingState();
 }
@@ -26,7 +25,7 @@ class _SearchSortingState extends State<SearchSorting> with AutomaticKeepAliveCl
     setState(() {
       activeSort = sort;
     });
-    widget.viewModel.sortBy(sort);
+    widget.callback(sort);
   }
 
   TextDecoration _filterDecoration(Sort sort) {

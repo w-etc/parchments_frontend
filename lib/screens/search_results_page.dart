@@ -3,26 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/parchment_card/parchment_card_list.dart';
 import 'package:parchments_flutter/components/search_sorting.dart';
 import 'package:parchments_flutter/models/parchment.dart';
-import 'package:parchments_flutter/view_models/sorting_view_model.dart';
+import 'package:parchments_flutter/models/search_result.dart';
+import 'package:parchments_flutter/models/sorting/sort.dart';
+import 'package:parchments_flutter/services/http_service.dart';
 
 
 class SearchResultsPage extends StatefulWidget {
+  String query;
   List<Parchment> parchments;
 
-  SearchResultsPage(List<Parchment> parchments) {
-    this.parchments = parchments;
+  SearchResultsPage(SearchResult searchResult) {
+    this.parchments = searchResult.parchments;
+    this.query = searchResult.query;
   }
 
   _SearchResultsPageState createState() => _SearchResultsPageState();
 }
 
 class _SearchResultsPageState extends State<SearchResultsPage> {
-  SortingViewModel _sortingViewModel;
 
-  @override
-  void initState() {
-    super.initState();
-    _sortingViewModel = SortingViewModel(widget.parchments, setState);
+  Future<void> sortParchments(Sort sort) async {
+    final parchments = await HttpService.searchParchmentsByTitle(widget.query, sort);
+    setState(() {
+      widget.parchments = parchments;
+    });
   }
 
   @override
@@ -31,8 +35,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
       body: ListView(
           padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
           children: [
-            SearchSorting(viewModel: _sortingViewModel),
-            ParchmentCardList(parchments: _sortingViewModel.parchments,)
+            SearchSorting(callback: sortParchments),
+            ParchmentCardList(parchments: widget.parchments,)
           ]
       ),
     );

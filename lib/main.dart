@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/models/redirection.dart';
+import 'package:parchments_flutter/models/search_result.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/screens/home_page.dart';
 import 'package:parchments_flutter/screens/auth_page/auth_page.dart';
@@ -34,8 +35,8 @@ class MyApp extends StatelessWidget {
             });
           case ROUTES_SEARCH_RESULTS:
             return MyCustomRoute(builder: (_) {
-              final List<Parchment> parchments = settings.arguments;
-              return SearchResultsPage(parchments);
+              final SearchResult searchResult = settings.arguments;
+              return SearchResultsPage(searchResult);
             });
           case ROUTES_PROFILE:
             return MyCustomRoute(builder: (_) {

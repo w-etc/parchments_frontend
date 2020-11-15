@@ -2,10 +2,10 @@ import 'package:parchments_flutter/models/parchment.dart';
 
 abstract class Sort {
   String displayText;
+  String sortText;
 
-  Sort(String displayText) {
+  Sort(String displayText, String sortText) {
     this.displayText = displayText;
+    this.sortText = sortText;
   }
-
-  void sortParchments(List<Parchment> parchments);
 }

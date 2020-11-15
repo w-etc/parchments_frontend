@@ -9,6 +9,7 @@ import 'package:parchments_flutter/constants/urls.dart';
 import 'package:parchments_flutter/models/breadcrumb.dart';
 import 'package:parchments_flutter/models/exceptions/authentication_error.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/models/sorting/sort.dart';
 import 'package:parchments_flutter/services/storage_provider.dart';
 
 class HttpService {
@@ -114,7 +115,7 @@ class HttpService {
   }
 
   static Future<List<Parchment>> getContinuations(Parchment parchment, int pageKey) async {
-    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}/continuations?page=$pageKey');
+    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}/continuations/alphabetic?page=$pageKey');
     if (response.statusCode == 200) {
       final parsedBody = json.decode(response.body) as List;
       return parsedBody.map((parchment) => Parchment.fromJson(parchment)).toList();
@@ -140,8 +141,8 @@ class HttpService {
     }
   }
 
-  static Future<List<Parchment>> searchParchmentsByTitle(String title) async {
-    final response = await client.get('$BACKEND_URL/parchment/title/$title');
+  static Future<List<Parchment>> searchParchmentsByTitle(String title, Sort sort) async {
+    final response = await client.get('$BACKEND_URL/parchment/title/$title/${sort.sortText}');
 
     if (response.statusCode == 200) {
       final parchments = json.decode(response.body) as List;

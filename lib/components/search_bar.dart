@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:parchments_flutter/constants/colors.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/models/search_result.dart';
+import 'package:parchments_flutter/models/sorting/alphabetic_sort.dart';
 import 'package:parchments_flutter/routes.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
@@ -15,7 +17,7 @@ class _SearchBarState extends State<SearchBar> {
   final _searchController = TextEditingController();
 
   Future<void> _search() async {
-    final parchments = await HttpService.searchParchmentsByTitle(_searchController.text);
+    final parchments = await HttpService.searchParchmentsByTitle(_searchController.text, AlphabeticSort());
     if (parchments == null) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('There was an error with your search. Please try again', style: TextStyle(fontFamily: NOTO_SERIF),), backgroundColor: ERROR_FOCUSED,));
       return;
@@ -40,7 +42,7 @@ class _SearchBarState extends State<SearchBar> {
       default: {
         FocusManager.instance.primaryFocus.unfocus();
         Scaffold.of(context).hideCurrentSnackBar();
-        Navigator.pushNamed(context, ROUTES_SEARCH_RESULTS, arguments: parchments);
+        Navigator.pushNamed(context, ROUTES_SEARCH_RESULTS, arguments: SearchResult(query: _searchController.text, parchments: parchments));
       }
       break;
     }
