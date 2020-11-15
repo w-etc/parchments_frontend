@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           case ROUTES_SEARCH_RESULTS:
             return MyCustomRoute(builder: (_) {
               final List<Parchment> parchments = settings.arguments;
-              return SearchResultsPage(parchments: parchments,);
+              return SearchResultsPage(parchments);
             });
           case ROUTES_PROFILE:
             return MyCustomRoute(builder: (_) {
