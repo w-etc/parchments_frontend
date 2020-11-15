@@ -25,6 +25,7 @@ class ContinuationsPage extends StatefulWidget {
 }
 
 class _ContinuationsPageState extends State<ContinuationsPage> with TickerProviderStateMixin {
+  bool _activeSorting = false;
   final int _pageSize = 5;
   Sort _activeSort = AlphabeticSort();
 
@@ -37,6 +38,13 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
   @override
   void initState() {
     super.initState();
+    _pagingController.addStatusListener((status) {
+      if (status == PagingStatus.ongoing || status == PagingStatus.completed) {
+        setState(() {
+          _activeSorting = true;
+        });
+      }
+    });
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -98,55 +106,62 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
       body: Container(
         alignment: Alignment.center,
         child: RefreshIndicator(
-          child: Column(
-            children: [
-              ParchmentSorting(callback: _changeSort),
-              Expanded(
-                child: PagedListView.separated(
-                  padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
-                  pagingController: _pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<Parchment>(
-                      itemBuilder: (context, item, index) => ParchmentCard(
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: _activeSorting
+                    ? Container(
+                      padding: EdgeInsets.only(top: 30, left: 30, right: 30,),
+                      child: ParchmentSorting(callback: _changeSort)
+                    )
+                    : Container()
+              ),
+              PagedSliverList.separated(
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Parchment>(
+                    itemBuilder: (context, item, index) => Container(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      child: ParchmentCard(
                         parchment: item,
                       ),
-                      noItemsFoundIndicatorBuilder: (context) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 100),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              FadeTransition(
-                                opacity: _firstAnimation,
-                                child: Container(
-                                  child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                                ),
+                    ),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            FadeTransition(
+                              opacity: _firstAnimation,
+                              child: Container(
+                                child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
                               ),
-                              FadeTransition(
-                                opacity: _secondAnimation,
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 50, bottom: 50,),
-                                  child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                                ),
+                            ),
+                            FadeTransition(
+                              opacity: _secondAnimation,
+                              child: Container(
+                                padding: EdgeInsets.only(top: 50, bottom: 50,),
+                                child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
                               ),
-                              FadeTransition(
-                                opacity: _thirdAnimation,
-                                child: Container(
-                                  child: WriteButton(parchment: widget.parchment, replaceRoute: true),
-                                ),
+                            ),
+                            FadeTransition(
+                              opacity: _thirdAnimation,
+                              child: Container(
+                                child: WriteButton(parchment: widget.parchment, replaceRoute: true),
                               ),
-                            ],
-                          ),
-                        );
-                      }
-                  ),
-                  separatorBuilder: (context, index) => Container(
-                      alignment: Alignment.center,
-                      child: CustomPaint(
-                        painter: DiamondPainter(length: 10),
-                      )
-                  ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                 ),
-              ),
+                separatorBuilder: (context, index) => Container(
+                    alignment: Alignment.center,
+                    child: CustomPaint(
+                      painter: DiamondPainter(length: 10),
+                    )
+                ),
+              )
             ],
           ),
           onRefresh: _refresh,
