@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parchments_flutter/components/parchment_card/parchment_card_list.dart';
-import 'package:parchments_flutter/components/search_sorting.dart';
+import 'package:parchments_flutter/components/parchment_sorting.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/models/search_result.dart';
 import 'package:parchments_flutter/models/sorting/sort.dart';
@@ -35,7 +35,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
       body: ListView(
           padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
           children: [
-            SearchSorting(callback: sortParchments),
+            ParchmentSorting(callback: sortParchments),
             ParchmentCardList(parchments: widget.parchments,)
           ]
       ),

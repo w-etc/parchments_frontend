@@ -114,8 +114,8 @@ class HttpService {
     }
   }
 
-  static Future<List<Parchment>> getContinuations(Parchment parchment, int pageKey) async {
-    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}/continuations/alphabetic?page=$pageKey');
+  static Future<List<Parchment>> getContinuations(Parchment parchment, Sort sort, int pageKey) async {
+    final response = await client.get('$BACKEND_URL/parchment/${parchment.id}/continuations/${sort.sortText}?page=$pageKey');
     if (response.statusCode == 200) {
       final parsedBody = json.decode(response.body) as List;
       return parsedBody.map((parchment) => Parchment.fromJson(parchment)).toList();

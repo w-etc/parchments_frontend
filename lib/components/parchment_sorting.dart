@@ -5,15 +5,15 @@ import 'package:parchments_flutter/models/sorting/alphabetic_sort.dart';
 import 'package:parchments_flutter/models/sorting/most_voted_sort.dart';
 import 'package:parchments_flutter/models/sorting/sort.dart';
 
-class SearchSorting extends StatefulWidget {
+class ParchmentSorting extends StatefulWidget {
   final Function callback;
 
-  SearchSorting({this.callback});
+  ParchmentSorting({this.callback});
 
-  _SearchSortingState createState() => _SearchSortingState();
+  _ParchmentSortingState createState() => _ParchmentSortingState();
 }
 
-class _SearchSortingState extends State<SearchSorting> with AutomaticKeepAliveClientMixin {
+class _ParchmentSortingState extends State<ParchmentSorting> with AutomaticKeepAliveClientMixin {
   static final Sort mostVoted = MostVotedSort();
   static final Sort alphabetic = AlphabeticSort();
   Sort activeSort = alphabetic;

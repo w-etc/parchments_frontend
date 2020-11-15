@@ -4,9 +4,12 @@ import 'package:parchments_flutter/components/menu_drawer.dart';
 import 'package:parchments_flutter/components/painters/diamond_painter.dart';
 import 'package:parchments_flutter/components/parchment_card/parchment_card.dart';
 import 'package:parchments_flutter/components/parchments_app_bar.dart';
+import 'package:parchments_flutter/components/parchment_sorting.dart';
 import 'package:parchments_flutter/components/write_button.dart';
 import 'package:parchments_flutter/constants/fonts.dart';
 import 'package:parchments_flutter/models/parchment.dart';
+import 'package:parchments_flutter/models/sorting/alphabetic_sort.dart';
+import 'package:parchments_flutter/models/sorting/sort.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 
 class ContinuationsPage extends StatefulWidget {
@@ -23,6 +26,7 @@ class ContinuationsPage extends StatefulWidget {
 
 class _ContinuationsPageState extends State<ContinuationsPage> with TickerProviderStateMixin {
   final int _pageSize = 5;
+  Sort _activeSort = AlphabeticSort();
 
   final _pagingController = PagingController<int, Parchment>(firstPageKey: 0);
   AnimationController _animationController;
@@ -64,7 +68,7 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newParchments = await HttpService.getContinuations(widget.parchment, pageKey);
+      final newParchments = await HttpService.getContinuations(widget.parchment, _activeSort, pageKey);
       final isLastPage = newParchments.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newParchments);
@@ -81,6 +85,11 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
     _pagingController.refresh();
   }
 
+  Future<void> _changeSort(Sort sort) async {
+    _activeSort = sort;
+    _refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,49 +98,56 @@ class _ContinuationsPageState extends State<ContinuationsPage> with TickerProvid
       body: Container(
         alignment: Alignment.center,
         child: RefreshIndicator(
-          child: PagedListView.separated(
-            padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<Parchment>(
-                itemBuilder: (context, item, index) => ParchmentCard(
-                  parchment: item,
+          child: Column(
+            children: [
+              ParchmentSorting(callback: _changeSort),
+              Expanded(
+                child: PagedListView.separated(
+                  padding: EdgeInsets.only(top: 50, left: 30, right: 30,),
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Parchment>(
+                      itemBuilder: (context, item, index) => ParchmentCard(
+                        parchment: item,
+                      ),
+                      noItemsFoundIndicatorBuilder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              FadeTransition(
+                                opacity: _firstAnimation,
+                                child: Container(
+                                  child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                                ),
+                              ),
+                              FadeTransition(
+                                opacity: _secondAnimation,
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 50, bottom: 50,),
+                                  child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
+                                ),
+                              ),
+                              FadeTransition(
+                                opacity: _thirdAnimation,
+                                child: Container(
+                                  child: WriteButton(parchment: widget.parchment, replaceRoute: true),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                  ),
+                  separatorBuilder: (context, index) => Container(
+                      alignment: Alignment.center,
+                      child: CustomPaint(
+                        painter: DiamondPainter(length: 10),
+                      )
+                  ),
                 ),
-                noItemsFoundIndicatorBuilder: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        FadeTransition(
-                          opacity: _firstAnimation,
-                          child: Container(
-                            child: Text('Nothing follows...', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                          ),
-                        ),
-                        FadeTransition(
-                          opacity: _secondAnimation,
-                          child: Container(
-                            padding: EdgeInsets.only(top: 50, bottom: 50,),
-                            child: Text('Be the first', style: TextStyle(fontSize: 28, fontFamily: CINZEL,),),
-                          ),
-                        ),
-                        FadeTransition(
-                          opacity: _thirdAnimation,
-                          child: Container(
-                            child: WriteButton(parchment: widget.parchment, replaceRoute: true),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-            ),
-            separatorBuilder: (context, index) => Container(
-                alignment: Alignment.center,
-                child: CustomPaint(
-                  painter: DiamondPainter(length: 10),
-                )
-            ),
+              ),
+            ],
           ),
           onRefresh: _refresh,
         ),
