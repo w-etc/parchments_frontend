@@ -6,6 +6,7 @@ import 'package:parchments_flutter/components/search_bar.dart';
 import 'package:parchments_flutter/models/parchment.dart';
 import 'package:parchments_flutter/services/http_service.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:uuid/uuid.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _parchmentsSeed = Uuid().v4();
   final int _pageSize = 5;
   final _pagingController = PagingController<int, Parchment>(firstPageKey: 0);
 
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newParchments = await HttpService.getCoreParchments(pageKey);
+      final newParchments = await HttpService.getCoreParchments(pageKey, _parchmentsSeed);
       final isLastPage = newParchments.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newParchments);
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() async {
+    _parchmentsSeed = Uuid().v4();
     _pagingController.refresh();
   }
 
