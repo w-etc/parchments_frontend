@@ -36,8 +36,15 @@ class _ParchmentVotesState extends State<ParchmentVotes> {
     return StorageProvider().userIsAuthenticated();
   }
 
-  IconData _thumbIcon() {
-    return widget.parchment.readerVoted ? Icons.thumb_up : Icons.thumb_up_outlined;
+  Widget _thumbIcon(bool userCanVote) {
+    if (!userCanVote) {
+      return Stack(
+        children: [
+          Icon(Icons.thumb_up, color: Colors.grey,),
+        ],
+      );
+    }
+    return widget.parchment.readerVoted ? Icon(Icons.thumb_up) : Icon(Icons.thumb_up_outlined);
   }
 
   @override
@@ -46,15 +53,23 @@ class _ParchmentVotesState extends State<ParchmentVotes> {
       onTap: _toggleVote,
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Icon(_thumbIcon()),
-            Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: Text(widget.parchment.voteCount.toString(), style: TextStyle(fontFamily: CINZEL),),
-            ),
-          ],
+        child: FutureBuilder<bool>(
+          future: _canVote(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  _thumbIcon(snapshot.data),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(widget.parchment.voteCount.toString(), style: TextStyle(fontFamily: CINZEL),),
+                  ),
+                ],
+              );
+            }
+            return Container();
+          }
         ),
       ),
     );
